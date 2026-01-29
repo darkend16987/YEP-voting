@@ -98,7 +98,7 @@ export const AWARDS = [
 ];
 
 // Tổng số user dự kiến
-export const TOTAL_EXPECTED_USERS = 250;
+export const TOTAL_EXPECTED_USERS = 280;
 
 // Cấu hình validation
 export const VOTING_RULES = {
