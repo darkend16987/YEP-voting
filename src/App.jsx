@@ -53,6 +53,7 @@ export default function App() {
 
         setUser(currentUser);
         setAuthError('');
+        setAuthChecking(false); // FIX: Phải set authChecking = false khi user hợp lệ
 
         // Cleanup vote subscription when user changes
         return () => unsubVote();
