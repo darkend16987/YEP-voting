@@ -1,0 +1,9 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom scrollbar cho đẹp nếu cần */
+body {
+  background-color: #020617; /* slate-950 */
+  color: white;
+}
