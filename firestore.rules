@@ -1,0 +1,23 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Users can only write their own vote
+    match /artifacts/{appId}/users/{userId}/vote_entry {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+    }
+
+    // Public votes readable by all authenticated users
+    // Note: If you want truly public read (unauthenticated), allow read: if true;
+    // The README said: allow read: if true; for match /artifacts/{appId}/public/data/all_votes/{voteId}
+    match /artifacts/{appId}/public/data/all_votes/{voteId} {
+      allow read: if true;
+      allow write: if request.auth != null && request.auth.uid == voteId;
+    }
+
+    // Config readable by authenticated users only
+    match /artifacts/{appId}/config/{document=**} {
+      allow read: if request.auth != null;
+      allow write: if false; // Only admin via console
+    }
+  }
+}
