@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { signOut } from 'firebase/auth';
-import { doc, setDoc, serverTimestamp } from 'firebase/firestore';
+import { doc, setDoc, serverTimestamp, onSnapshot } from 'firebase/firestore';
 import { auth, db, activeAppId } from '../config/firebase';
 import { VIDEOS, AWARDS } from '../config/constants';
 import logoPlaceholder from '../assets/logo-placeholder.png';
@@ -12,18 +12,53 @@ import {
   ChevronRight,
   ArrowLeft,
   Send,
+  Award,
   Loader2,
-  Play,
-  Trophy,
-  Medal
+  Lock,
+  Trophy
 } from 'lucide-react';
 
-const AwardIcon = ({ id, size = 24, className = "" }) => {
-  if (id === 'first') return <Trophy size={size} className={className} />;
-  if (id === 'second') return <Medal size={size} className={className} />;
-  if (id === 'third') return <Medal size={size} className={className} />;
-  return null;
-};
+// Card hiển thị khi voting đã bị khóa
+const VotingLockedCard = ({ user }) => (
+  <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 text-white p-6 flex flex-col items-center justify-center">
+    <div className="w-full max-w-md">
+      <div className="bg-gradient-to-br from-amber-500/10 to-orange-500/5 border border-amber-500/30 p-8 rounded-3xl text-center backdrop-blur-sm">
+        <div className="w-20 h-20 bg-gradient-to-br from-amber-400 to-orange-500 rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg shadow-amber-500/20">
+          <Lock size={40} className="text-white" />
+        </div>
+        <h2 className="text-2xl font-bold text-amber-400 mb-2">
+          Bình chọn đã kết thúc!
+        </h2>
+        <p className="text-slate-400 mb-6">
+          Cuộc bình chọn đã được đóng lại. Cảm ơn bạn đã quan tâm!
+        </p>
+
+        <div className="bg-slate-800/50 rounded-xl p-4 mb-6">
+          <div className="flex items-center justify-center gap-2 text-amber-400 mb-2">
+            <Trophy size={20} />
+            <span className="font-medium">Kết quả chung cuộc</span>
+          </div>
+          <p className="text-sm text-slate-500">
+            Vui lòng truy cập trang Dashboard để xem kết quả
+          </p>
+        </div>
+
+        <div className="bg-slate-800/50 rounded-xl p-4 mb-6">
+          <p className="text-sm text-slate-500 mb-1">Đăng nhập với</p>
+          <p className="text-slate-300 font-medium">{user.email}</p>
+        </div>
+
+        <button
+          onClick={() => signOut(auth)}
+          className="text-slate-400 hover:text-white underline underline-offset-4 transition-colors flex items-center gap-2 mx-auto"
+        >
+          <LogOut size={16} />
+          Đăng xuất
+        </button>
+      </div>
+    </div>
+  </div>
+);
 
 // Card hiển thị thông tin đã vote xong
 const VotedSuccessCard = ({ user }) => (
@@ -256,6 +291,18 @@ const VotingScreen = ({ user, existingVote }) => {
   const [selections, setSelections] = useState({});
   const [submitting, setSubmitting] = useState(false);
   const [confirmStep, setConfirmStep] = useState(false);
+  const [isVotingLocked, setIsVotingLocked] = useState(false);
+
+  // Listen to voting status
+  useEffect(() => {
+    const statusRef = doc(db, 'artifacts', activeAppId, 'config', 'voting_status');
+    const unsubscribe = onSnapshot(statusRef, (docSnap) => {
+      if (docSnap.exists()) {
+        setIsVotingLocked(docSnap.data().isLocked || false);
+      }
+    });
+    return () => unsubscribe();
+  }, []);
 
   useEffect(() => {
     const initial = {};
@@ -311,6 +358,11 @@ const VotingScreen = ({ user, existingVote }) => {
       setSubmitting(false);
     }
   };
+
+  // Check if voting is locked
+  if (isVotingLocked) {
+    return <VotingLockedCard user={user} />;
+  }
 
   if (existingVote) {
     return <VotedSuccessCard user={user} />;
