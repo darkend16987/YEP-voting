@@ -522,6 +522,11 @@ const DashboardScreen = ({ onExit }) => {
   const [previousRanks, setPreviousRanks] = useState({});
   const [lastUpdate, setLastUpdate] = useState(null);
   const [isVotingLocked, setIsVotingLocked] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  // Ref to track previous scores for rank change detection
+  const lastSortedRef = useRef([]);
 
   // Admin dialogs
   const [showResetDialog, setShowResetDialog] = useState(false);
@@ -531,49 +536,64 @@ const DashboardScreen = ({ onExit }) => {
   // Listen to voting status
   useEffect(() => {
     const statusRef = doc(db, 'artifacts', activeAppId, 'config', 'voting_status');
-    const unsubscribe = onSnapshot(statusRef, (docSnap) => {
-      if (docSnap.exists()) {
-        setIsVotingLocked(docSnap.data().isLocked || false);
+    const unsubscribe = onSnapshot(statusRef,
+      (docSnap) => {
+        if (docSnap.exists()) {
+          setIsVotingLocked(docSnap.data().isLocked || false);
+        }
+      },
+      (err) => {
+        console.error('Error listening to voting status:', err);
+        // Don't show error for config as it may not exist yet
       }
-    });
+    );
     return () => unsubscribe();
   }, []);
 
   // Listen to votes
   useEffect(() => {
     const q = collection(db, 'artifacts', activeAppId, 'public_votes');
-    const unsubscribe = onSnapshot(q, (snapshot) => {
-      const tempScores = {};
-      VIDEOS.forEach(v => tempScores[v.id] = 0);
-      let count = 0;
+    const unsubscribe = onSnapshot(q,
+      (snapshot) => {
+        const tempScores = {};
+        VIDEOS.forEach(v => tempScores[v.id] = 0);
+        let count = 0;
 
-      snapshot.forEach(doc => {
-        const data = doc.data();
-        if (data.points) {
-          count++;
-          Object.entries(data.points).forEach(([vid, point]) => {
-            if (tempScores[vid] !== undefined) tempScores[vid] += point;
-          });
-        }
-      });
+        snapshot.forEach(doc => {
+          const data = doc.data();
+          if (data.points) {
+            count++;
+            Object.entries(data.points).forEach(([vid, point]) => {
+              if (tempScores[vid] !== undefined) tempScores[vid] += point;
+            });
+          }
+        });
 
-      const sorted = VIDEOS.map(v => ({
-        ...v,
-        score: tempScores[v.id]
-      })).sort((a, b) => b.score - a.score);
+        const sorted = VIDEOS.map(v => ({
+          ...v,
+          score: tempScores[v.id]
+        })).sort((a, b) => b.score - a.score);
 
-      const newPreviousRanks = {};
-      lastSortedRef.current.forEach((item, idx) => {
-        newPreviousRanks[item.id] = idx + 1;
-      });
+        const newPreviousRanks = {};
+        lastSortedRef.current.forEach((item, idx) => {
+          newPreviousRanks[item.id] = idx + 1;
+        });
 
-      setPreviousRanks(newPreviousRanks);
-      setScores(sorted);
-      setTotalVotes(count);
-      setLastUpdate(new Date());
+        setPreviousRanks(newPreviousRanks);
+        setScores(sorted);
+        setTotalVotes(count);
+        setLastUpdate(new Date());
+        setIsLoading(false);
+        setError(null);
 
-      lastSortedRef.current = sorted;
-    });
+        lastSortedRef.current = sorted;
+      },
+      (err) => {
+        console.error('Error listening to votes:', err);
+        setError(err.message);
+        setIsLoading(false);
+      }
+    );
     return () => unsubscribe();
   }, []);
 
@@ -628,6 +648,37 @@ const DashboardScreen = ({ onExit }) => {
 
   const maxScore = scores.length > 0 ? Math.max(...scores.map(s => s.score)) : 1;
   const votingProgress = (totalVotes / TOTAL_EXPECTED_USERS) * 100;
+
+  // Loading state
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 flex items-center justify-center">
+        <div className="text-center">
+          <div className="w-12 h-12 border-4 border-blue-500/30 border-t-blue-500 rounded-full animate-spin mx-auto mb-4" />
+          <p className="text-slate-400">Đang tải dữ liệu...</p>
+        </div>
+      </div>
+    );
+  }
+
+  // Error state
+  if (error) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 flex items-center justify-center p-4">
+        <div className="bg-red-500/10 border border-red-500/30 rounded-2xl p-6 max-w-md text-center">
+          <AlertTriangle size={48} className="text-red-400 mx-auto mb-4" />
+          <h2 className="text-xl font-bold text-red-400 mb-2">Lỗi tải dữ liệu</h2>
+          <p className="text-slate-400 mb-4">{error}</p>
+          <button
+            onClick={() => window.location.reload()}
+            className="bg-slate-800 hover:bg-slate-700 text-white px-4 py-2 rounded-xl transition-colors"
+          >
+            Thử lại
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   // Show Final Results if voting is locked
   if (isVotingLocked) {
