@@ -47,16 +47,11 @@ export default function App() {
           }
 
           // Subscribe to user's vote status
-          // Path: artifacts/{appId}/user_votes/{uid} (4 segments - valid)
           console.log('[Auth] Email allowed, subscribing to vote status');
           const voteDocRef = doc(db, 'artifacts', activeAppId, 'user_votes', currentUser.uid);
           unsubVote = onSnapshot(voteDocRef, (docSnap) => {
             if (docSnap.exists()) {
               setHasVoted(true);
-              // Copy data to public collection for Dashboard
-              // Path: artifacts/{appId}/public_votes/{uid} (4 segments - valid)
-              const publicVoteRef = doc(db, 'artifacts', activeAppId, 'public_votes', currentUser.uid);
-              setDoc(publicVoteRef, docSnap.data());
             } else {
               setHasVoted(false);
             }
@@ -100,7 +95,7 @@ export default function App() {
     return <LoadingScreen />;
   }
 
-  // Admin/Dashboard mode
+  // Dashboard mode (if switched or admin)
   if (isAdminMode) {
     return <DashboardScreen onExit={toggleAdmin} />;
   }
@@ -111,5 +106,5 @@ export default function App() {
   }
 
   // Voting screen
-  return <VotingScreen user={user} existingVote={hasVoted} />;
+  return <VotingScreen user={user} existingVote={hasVoted} onAdminClick={toggleAdmin} />;
 }

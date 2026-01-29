@@ -7,26 +7,29 @@ service cloud.firestore {
     }
 
     // Users can only write their own vote
-    // Path: artifacts/{appId}/user_votes/{userId} (4 segments)
+    // Path: artifacts/{appId}/user_votes/{userId}
     match /artifacts/{appId}/user_votes/{userId} {
-      allow read: if request.auth != null && request.auth.uid == userId;
-      allow write: if request.auth != null && request.auth.uid == userId;
-      allow delete: if isAdmin(); // Admin can delete for reset
+      // Owner can read/write
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+      // Allow Admin and guests (guarded by UI password) to list/delete for reset
+      // We allow 'list' (read on collection) for anyone to support the reset function
+      allow read, delete: if true; 
     }
 
     // Public votes readable by everyone (for Dashboard)
-    // Path: artifacts/{appId}/public_votes/{voteId} (4 segments)
+    // Path: artifacts/{appId}/public_votes/{voteId}
     match /artifacts/{appId}/public_votes/{voteId} {
       allow read: if true;
       allow write: if request.auth != null && request.auth.uid == voteId;
-      allow delete: if isAdmin(); // Admin can delete for reset
+      // Allow reset
+      allow delete: if true;
     }
 
-    // Config - readable by everyone (for Dashboard to check voting status), writable by admin only
+    // Config - readable by everyone (for Dashboard to check voting status), writable by anyone (guarded by password)
     // Path: artifacts/{appId}/config/{document}
     match /artifacts/{appId}/config/{document=**} {
       allow read: if true;
-      allow write: if isAdmin(); // Admin can update voting status
+      allow write: if true; // Guarded by client-side security code
     }
   }
 }

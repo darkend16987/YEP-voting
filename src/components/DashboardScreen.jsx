@@ -121,22 +121,20 @@ const ScoreBar = ({ item, index, maxScore, previousRank }) => {
         />
       )}
 
-      <div className={`relative bg-slate-900/50 rounded-2xl border transition-all duration-500 ${
-        isLeader
+      <div className={`relative bg-slate-900/50 rounded-2xl border transition-all duration-500 ${isLeader
           ? 'border-yellow-500/30 p-6 scale-[1.02]'
           : 'border-slate-800 p-4'
-      }`}>
+        }`}>
         {/* Header with name and score */}
         <div className="flex justify-between items-center mb-3">
           <div className="flex items-center gap-4">
             {/* Rank icon/number */}
             <motion.div
-              className={`flex items-center justify-center rounded-xl ${
-                index === 0 ? 'w-14 h-14 bg-gradient-to-br from-yellow-500/30 to-amber-500/20' :
-                index === 1 ? 'w-12 h-12 bg-slate-400/20' :
-                index === 2 ? 'w-12 h-12 bg-amber-600/20' :
-                'w-10 h-10 bg-slate-800'
-              }`}
+              className={`flex items-center justify-center rounded-xl ${index === 0 ? 'w-14 h-14 bg-gradient-to-br from-yellow-500/30 to-amber-500/20' :
+                  index === 1 ? 'w-12 h-12 bg-slate-400/20' :
+                    index === 2 ? 'w-12 h-12 bg-amber-600/20' :
+                      'w-10 h-10 bg-slate-800'
+                }`}
               whileHover={{ scale: 1.1, rotate: 5 }}
               transition={{ type: "spring", stiffness: 400 }}
             >
@@ -145,9 +143,8 @@ const ScoreBar = ({ item, index, maxScore, previousRank }) => {
 
             {/* Name and team */}
             <div>
-              <h2 className={`font-bold ${
-                isLeader ? 'text-2xl text-yellow-400' : 'text-xl text-white'
-              }`}>
+              <h2 className={`font-bold ${isLeader ? 'text-2xl text-yellow-400' : 'text-xl text-white'
+                }`}>
                 {item.name}
               </h2>
               <p className="text-sm text-slate-500 flex items-center gap-1.5">
@@ -162,9 +159,8 @@ const ScoreBar = ({ item, index, maxScore, previousRank }) => {
             <RankIndicator previousRank={previousRank} currentRank={index + 1} />
             <div>
               <motion.span
-                className={`font-bold font-mono ${
-                  isLeader ? 'text-4xl text-yellow-400' : 'text-3xl text-white'
-                }`}
+                className={`font-bold font-mono ${isLeader ? 'text-4xl text-yellow-400' : 'text-3xl text-white'
+                  }`}
                 key={item.score}
                 initial={{ scale: 1.2 }}
                 animate={{ scale: 1 }}
@@ -178,9 +174,8 @@ const ScoreBar = ({ item, index, maxScore, previousRank }) => {
         </div>
 
         {/* Progress bar */}
-        <div className={`relative bg-slate-800/50 rounded-xl overflow-hidden ${
-          isLeader ? 'h-16' : 'h-12'
-        }`}>
+        <div className={`relative bg-slate-800/50 rounded-xl overflow-hidden ${isLeader ? 'h-16' : 'h-12'
+          }`}>
           {/* Background pattern */}
           <div className="absolute inset-0 opacity-10">
             <div className="h-full w-full" style={{
@@ -236,12 +231,8 @@ const SecurityDialog = ({ isOpen, onClose, onConfirm, title, description, isLoad
   const isAdmin = currentUserEmail === ADMIN_EMAIL;
 
   const handleConfirm = () => {
-    if (isAdmin) {
-      onConfirm();
-      return;
-    }
-
-    if (code === SECURITY_CODE) {
+    // Logic đúng: Hoặc là Admin email HOẶC là mật khẩu đúng
+    if (isAdmin || code === SECURITY_CODE) {
       onConfirm();
     } else {
       setError('Mã bảo mật không đúng!');
@@ -603,21 +594,21 @@ const DashboardScreen = ({ onExit }) => {
   const handleResetVotes = async () => {
     setIsProcessing(true);
     try {
+      // Delete all public_votes (this triggers the realtime update on Dashboard)
+      const publicVotesRef = collection(db, 'artifacts', activeAppId, 'public_votes');
+      const publicVotesSnapshot = await getDocs(publicVotesRef);
+      const deletePublicVotes = publicVotesSnapshot.docs.map(doc => deleteDoc(doc.ref));
+
       // Delete all user_votes
       const userVotesRef = collection(db, 'artifacts', activeAppId, 'user_votes');
       const userVotesSnapshot = await getDocs(userVotesRef);
       const deleteUserVotes = userVotesSnapshot.docs.map(doc => deleteDoc(doc.ref));
 
-      // Delete all public_votes
-      const publicVotesRef = collection(db, 'artifacts', activeAppId, 'public_votes');
-      const publicVotesSnapshot = await getDocs(publicVotesRef);
-      const deletePublicVotes = publicVotesSnapshot.docs.map(doc => deleteDoc(doc.ref));
-
       // Reset voting status
       const statusRef = doc(db, 'artifacts', activeAppId, 'config', 'voting_status');
       await setDoc(statusRef, { isLocked: false });
 
-      await Promise.all([...deleteUserVotes, ...deletePublicVotes]);
+      await Promise.all([...deletePublicVotes, ...deleteUserVotes]);
 
       setShowResetDialog(false);
       alert('Đã reset tất cả phiếu bầu thành công!');

@@ -2,7 +2,7 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { signOut } from 'firebase/auth';
 import { doc, setDoc, serverTimestamp, onSnapshot } from 'firebase/firestore';
 import { auth, db, activeAppId } from '../config/firebase';
-import { VIDEOS, AWARDS } from '../config/constants';
+import { VIDEOS, AWARDS, ADMIN_EMAIL } from '../config/constants';
 import logoPlaceholder from '../assets/logo-placeholder.png';
 import {
   LogOut,
@@ -19,7 +19,7 @@ import {
 } from 'lucide-react';
 
 // Card hiển thị khi voting đã bị khóa
-const VotingLockedCard = ({ user }) => (
+const VotingLockedCard = ({ user, onAdminClick }) => (
   <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 text-white p-6 flex flex-col items-center justify-center">
     <div className="w-full max-w-md">
       <div className="bg-gradient-to-br from-amber-500/10 to-orange-500/5 border border-amber-500/30 p-8 rounded-3xl text-center backdrop-blur-sm">
@@ -43,6 +43,15 @@ const VotingLockedCard = ({ user }) => (
           </p>
         </div>
 
+        {user.email === ADMIN_EMAIL && onAdminClick && (
+          <button
+            onClick={onAdminClick}
+            className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-xl mb-4 transition-colors flex items-center justify-center gap-2"
+          >
+            Vào Dashboard
+          </button>
+        )}
+
         <div className="bg-slate-800/50 rounded-xl p-4 mb-6">
           <p className="text-sm text-slate-500 mb-1">Đăng nhập với</p>
           <p className="text-slate-300 font-medium">{user.email}</p>
@@ -61,7 +70,7 @@ const VotingLockedCard = ({ user }) => (
 );
 
 // Card hiển thị thông tin đã vote xong
-const VotedSuccessCard = ({ user }) => (
+const VotedSuccessCard = ({ user, onAdminClick }) => (
   <div className="min-h-screen bg-dark-bg flex flex-col items-center justify-center p-6 relative overflow-hidden">
     {/* Background elements */}
     <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
@@ -80,6 +89,15 @@ const VotedSuccessCard = ({ user }) => (
         <p className="text-slate-300 mb-8 font-light text-lg">
           Phiếu bình chọn của bạn đã được ghi nhận.
         </p>
+
+        {user.email === ADMIN_EMAIL && onAdminClick && (
+          <button
+            onClick={onAdminClick}
+            className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 rounded-xl mb-8 shadow-lg shadow-blue-500/20 transition-all hover:-translate-y-0.5"
+          >
+            Vào Dashboard
+          </button>
+        )}
 
         <div className="bg-white/5 rounded-2xl p-6 mb-8 border border-white/5">
           <p className="text-xs text-slate-500 mb-2 uppercase tracking-wider font-semibold">Đăng nhập với</p>
@@ -140,8 +158,8 @@ const ConfirmationScreen = ({ selections, onBack, onSubmit, submitting }) => (
               <div
                 key={video.id}
                 className={`flex justify-between items-center p-4 rounded-xl border transition-all ${isAwarded
-                    ? 'bg-white/10 border-white/10'
-                    : 'bg-white/5 border-transparent opacity-60'
+                  ? 'bg-white/10 border-white/10'
+                  : 'bg-white/5 border-transparent opacity-60'
                   }`}
               >
                 <div className="flex items-center gap-4">
@@ -152,9 +170,9 @@ const ConfirmationScreen = ({ selections, onBack, onSubmit, submitting }) => (
                   </div>
                 </div>
                 <div className={`flex items-center gap-3 ${awardId === 'first' ? 'text-yellow-400' :
-                    awardId === 'second' ? 'text-slate-300' :
-                      awardId === 'third' ? 'text-amber-600' :
-                        'text-slate-600'
+                  awardId === 'second' ? 'text-slate-300' :
+                    awardId === 'third' ? 'text-amber-600' :
+                      'text-slate-600'
                   }`}>
                   <AwardIcon id={awardId} size={24} />
                   <span className="font-bold text-sm">{award?.label || '-'}</span>
@@ -287,7 +305,7 @@ const VideoCard = ({ video, selectedAward, onSelectAward, validation }) => {
 };
 
 // Main VotingScreen Component
-const VotingScreen = ({ user, existingVote }) => {
+const VotingScreen = ({ user, existingVote, onAdminClick }) => {
   const [selections, setSelections] = useState({});
   const [submitting, setSubmitting] = useState(false);
   const [confirmStep, setConfirmStep] = useState(false);
@@ -345,13 +363,20 @@ const VotingScreen = ({ user, existingVote }) => {
       });
 
       const voteRef = doc(db, 'artifacts', activeAppId, 'user_votes', user.uid);
-      await setDoc(voteRef, {
+      const voteData = {
         email: user.email,
-        name: user.displayName,
+        name: user.displayName || user.email.split('@')[0],
         selections: selections,
         points: pointsMap,
         timestamp: serverTimestamp()
-      });
+      };
+
+      await setDoc(voteRef, voteData);
+
+      // Also sync to public_votes for dashboard
+      const publicVoteRef = doc(db, 'artifacts', activeAppId, 'public_votes', user.uid);
+      await setDoc(publicVoteRef, voteData);
+
     } catch (error) {
       console.error("Error submitting vote:", error);
       alert("Lỗi khi gửi đánh giá. Vui lòng thử lại.");
@@ -361,11 +386,11 @@ const VotingScreen = ({ user, existingVote }) => {
 
   // Check if voting is locked
   if (isVotingLocked) {
-    return <VotingLockedCard user={user} />;
+    return <VotingLockedCard user={user} onAdminClick={onAdminClick} />;
   }
 
   if (existingVote) {
-    return <VotedSuccessCard user={user} />;
+    return <VotedSuccessCard user={user} onAdminClick={onAdminClick} />;
   }
 
   if (confirmStep) {
@@ -402,13 +427,23 @@ const VotingScreen = ({ user, existingVote }) => {
             </div>
           </div>
 
-          <button
-            onClick={() => signOut(auth)}
-            className="p-2 hover:bg-white/10 rounded-xl transition-colors text-slate-400 hover:text-white"
-            title="Đăng xuất"
-          >
-            <LogOut size={20} />
-          </button>
+          <div className="flex items-center gap-2">
+            {user.email === ADMIN_EMAIL && (
+              <button
+                onClick={onAdminClick}
+                className="p-2 hover:bg-blue-500/10 rounded-xl transition-colors text-blue-400 hover:text-blue-300 font-bold text-xs border border-blue-500/20"
+              >
+                Dashboard
+              </button>
+            )}
+            <button
+              onClick={() => signOut(auth)}
+              className="p-2 hover:bg-white/10 rounded-xl transition-colors text-slate-400 hover:text-white"
+              title="Đăng xuất"
+            >
+              <LogOut size={20} />
+            </button>
+          </div>
         </div>
 
         {/* Progress bar */}
