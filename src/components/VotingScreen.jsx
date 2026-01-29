@@ -15,8 +15,18 @@ import {
   Award,
   Loader2,
   Lock,
-  Trophy
+  Trophy,
+  Medal,
+  Play
 } from 'lucide-react';
+
+// Award Icon Component
+const AwardIcon = ({ id, size = 24 }) => {
+  if (id === 'first') return <Trophy size={size} className="text-yellow-400" />;
+  if (id === 'second') return <Medal size={size} className="text-slate-300" />;
+  if (id === 'third') return <Award size={size} className="text-amber-600" />;
+  return <div className="w-1 h-1 bg-slate-600 rounded-full" />;
+};
 
 // Card hiển thị khi voting đã bị khóa
 const VotingLockedCard = ({ user, onAdminClick }) => (
@@ -109,10 +119,18 @@ const VotedSuccessCard = ({ user, onAdminClick }) => (
           </div>
         </div>
 
-        <p className="text-sm text-slate-400 mb-8 leading-relaxed">
+        <p className="text-slate-400 mb-8 leading-relaxed">
           Kết quả cuối cùng sẽ được công bố tại <br />
           <span className="text-primary-400 font-semibold">Year End Party 2025</span>
         </p>
+
+        <button
+          onClick={onAdminClick}
+          className="w-full bg-slate-800 hover:bg-slate-700 text-white font-bold py-4 rounded-xl mb-8 border border-white/10 transition-all flex items-center justify-center gap-2"
+        >
+          <Trophy size={20} className="text-yellow-400" />
+          Xem kết quả Dashboard
+        </button>
 
         <button
           onClick={() => signOut(auth)}
