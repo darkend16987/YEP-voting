@@ -74,9 +74,6 @@ const LoginScreen = ({ error, onAdminClick }) => {
             <div className="w-24 h-24 bg-gradient-to-br from-primary-500 to-secondary-500 rounded-3xl flex items-center justify-center mx-auto shadow-2xl shadow-primary-500/30 transform transition-all duration-300 hover:scale-105 hover:rotate-3 group-hover:shadow-primary-500/40">
               <Clapperboard size={48} className="text-white drop-shadow-md" />
             </div>
-            <div className="absolute -top-3 -right-3 w-10 h-10 bg-yellow-400 rounded-full flex items-center justify-center shadow-lg shadow-yellow-400/30 animate-pulse-ring">
-              <Sparkles size={20} className="text-yellow-950" />
-            </div>
           </div>
 
           {/* Title */}

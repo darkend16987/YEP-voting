@@ -14,7 +14,9 @@ import {
   ArrowUp,
   ArrowDown,
   Minus,
-  Activity
+  Activity,
+  Trophy,
+  LogOut
 } from 'lucide-react';
 
 // Animated number component
@@ -76,9 +78,9 @@ const ScoreBar = ({ item, index, maxScore, previousRank }) => {
   const isLeader = index === 0;
 
   const getRankIcon = () => {
-    if (index === 0) return <Crown size={28} className="text-yellow-400 drop-shadow-[0_0_10px_rgba(250,204,21,0.5)]" />;
+    if (index === 0) return <Trophy size={28} className="text-yellow-400 drop-shadow-[0_0_10px_rgba(250,204,21,0.5)]" />;
     if (index === 1) return <Medal size={24} className="text-slate-300" />;
-    if (index === 2) return <Award size={24} className="text-amber-600" />;
+    if (index === 2) return <Medal size={24} className="text-amber-600" />;
     return <span className="text-slate-500 font-display font-bold text-xl">#{index + 1}</span>;
   };
 
@@ -178,55 +180,9 @@ const DashboardScreen = ({ onExit }) => {
   const [totalVotes, setTotalVotes] = useState(0);
   const [previousRanks, setPreviousRanks] = useState({});
   const [lastUpdate, setLastUpdate] = useState(null);
-
-  useEffect(() => {
-    const q = collection(db, 'artifacts', activeAppId, 'public_votes');
-
-    const unsubscribe = onSnapshot(q, (snapshot) => {
-      const tempScores = {};
-      VIDEOS.forEach(v => tempScores[v.id] = 0);
-      let count = 0;
-
-      snapshot.forEach(doc => {
-        const data = doc.data();
-        if (data.points) {
-          count++;
-          Object.entries(data.points).forEach(([vid, point]) => {
-            if (tempScores[vid] !== undefined) tempScores[vid] += point;
-          });
-        }
-      });
-
-      // Calculate new rankings, ensuring stable sort for same scores (optional) but simplistic here
-      const sorted = VIDEOS.map(v => ({
-        ...v,
-        score: tempScores[v.id]
-      })).sort((a, b) => b.score - a.score);
-
-      // Save previous ranks before updating
-      const newPreviousRanks = {};
-      scores.forEach((item, idx) => {
-        newPreviousRanks[item.id] = idx + 1;
-      });
-      setPreviousRanks(newPreviousRanks);
-
-      setScores(sorted);
-      setTotalVotes(count);
-      setLastUpdate(new Date());
-    });
-
-    return () => unsubscribe();
-  }, []); // Only run once on mount, listener is persistent but we don't need 'scores' in dependency array because we use functional updates or separate logic. 'scores' for prev ranks needs care. 
-  // Actually, for previousRanks, we need the *previous* scores state. 
-  // The closure on useEffect means 'scores' is always [] inside the effect unless we use refs or dependencies.
-  // Correct pattern for maintaining prev state inside effect: use a Ref or functional update doesn't help with side-effects *before* update.
-  // We can track previous ranks via a ref inside the effect or outside.
-
-  // FIX: Use a ref to track the last sorted order to derive previous ranks correctly without re-subscribing.
   const lastSortedRef = useRef([]);
 
   useEffect(() => {
-    // Re-implementing logic with ref to avoid dependency loop or stale closures
     const q = collection(db, 'artifacts', activeAppId, 'public_votes');
     const unsubscribe = onSnapshot(q, (snapshot) => {
       const tempScores = {};
@@ -248,7 +204,6 @@ const DashboardScreen = ({ onExit }) => {
         score: tempScores[v.id]
       })).sort((a, b) => b.score - a.score);
 
-      // Calculate ranks from the REF (the state before this update)
       const newPreviousRanks = {};
       lastSortedRef.current.forEach((item, idx) => {
         newPreviousRanks[item.id] = idx + 1;
@@ -259,7 +214,6 @@ const DashboardScreen = ({ onExit }) => {
       setTotalVotes(count);
       setLastUpdate(new Date());
 
-      // Update ref
       lastSortedRef.current = sorted;
     });
     return () => unsubscribe();
@@ -402,7 +356,7 @@ const DashboardScreen = ({ onExit }) => {
 
           <div className="flex flex-wrap items-center gap-8">
             <div className="flex items-center gap-3 bg-white/5 px-4 py-2 rounded-xl border border-white/5">
-              <span className="text-2xl drop-shadow-sm">🏆</span>
+              <Trophy size={20} className="text-yellow-400" />
               <div className="flex flex-col">
                 <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Giải Nhất</span>
                 <span className="text-yellow-400 font-bold font-display text-lg">+5 pts</span>
@@ -410,7 +364,7 @@ const DashboardScreen = ({ onExit }) => {
             </div>
 
             <div className="flex items-center gap-3 bg-white/5 px-4 py-2 rounded-xl border border-white/5">
-              <span className="text-2xl drop-shadow-sm">🥈</span>
+              <Medal size={20} className="text-slate-300" />
               <div className="flex flex-col">
                 <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Giải Nhì</span>
                 <span className="text-slate-300 font-bold font-display text-lg">+3 pts</span>
@@ -418,7 +372,7 @@ const DashboardScreen = ({ onExit }) => {
             </div>
 
             <div className="flex items-center gap-3 bg-white/5 px-4 py-2 rounded-xl border border-white/5">
-              <span className="text-2xl drop-shadow-sm">🥉</span>
+              <Medal size={20} className="text-amber-600" />
               <div className="flex flex-col">
                 <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Giải Ba</span>
                 <span className="text-amber-600 font-bold font-display text-lg">+2 pts</span>
@@ -443,23 +397,3 @@ const DashboardScreen = ({ onExit }) => {
 };
 
 export default DashboardScreen;
-function LogOut({ size, className }) {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width={size}
-      height={size}
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      className={className}
-    >
-      <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
-      <polyline points="16 17 21 12 16 7"></polyline>
-      <line x1="21" y1="12" x2="9" y2="12"></line>
-    </svg>
-  )
-}

@@ -12,10 +12,18 @@ import {
   ChevronRight,
   ArrowLeft,
   Send,
-  Award,
   Loader2,
-  Play
+  Play,
+  Trophy,
+  Medal
 } from 'lucide-react';
+
+const AwardIcon = ({ id, size = 24, className = "" }) => {
+  if (id === 'first') return <Trophy size={size} className={className} />;
+  if (id === 'second') return <Medal size={size} className={className} />;
+  if (id === 'third') return <Medal size={size} className={className} />;
+  return null;
+};
 
 // Card hiển thị thông tin đã vote xong
 const VotedSuccessCard = ({ user }) => (
@@ -113,7 +121,7 @@ const ConfirmationScreen = ({ selections, onBack, onSubmit, submitting }) => (
                       awardId === 'third' ? 'text-amber-600' :
                         'text-slate-600'
                   }`}>
-                  <span className="text-2xl filter drop-shadow-md">{award?.emoji}</span>
+                  <AwardIcon id={awardId} size={24} />
                   <span className="font-bold text-sm">{award?.label || '-'}</span>
                 </div>
               </div>
@@ -189,7 +197,9 @@ const VideoCard = ({ video, selectedAward, onSelectAward, validation }) => {
           }
         `}
       >
-        <span className="text-2xl filter drop-shadow-md group-hover:scale-110 transition-transform duration-200">{award.emoji}</span>
+        <div className="group-hover:scale-110 transition-transform duration-200">
+          <AwardIcon id={award.id} size={28} />
+        </div>
         <span className="text-[10px] uppercase tracking-wider">{award.shortLabel}</span>
 
         {!isDisabled && !isSelected && remaining <= award.limit && (
