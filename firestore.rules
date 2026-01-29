@@ -22,10 +22,10 @@ service cloud.firestore {
       allow delete: if isAdmin(); // Admin can delete for reset
     }
 
-    // Config - readable by authenticated users, writable by admin only
+    // Config - readable by everyone (for Dashboard to check voting status), writable by admin only
     // Path: artifacts/{appId}/config/{document}
     match /artifacts/{appId}/config/{document=**} {
-      allow read: if request.auth != null;
+      allow read: if true;
       allow write: if isAdmin(); // Admin can update voting status
     }
   }

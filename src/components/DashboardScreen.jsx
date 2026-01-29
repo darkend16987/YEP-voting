@@ -21,7 +21,9 @@ import {
   X,
   Check,
   Sparkles,
-  PartyPopper
+  PartyPopper,
+  Trophy,
+  Activity
 } from 'lucide-react';
 
 // Animated number component
