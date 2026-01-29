@@ -105,3 +105,7 @@ export const VOTING_RULES = {
   mustVoteAll: true, // Phải chấm hết tất cả video
   canChangeVote: false, // Không được sửa vote
 };
+
+// Admin configuration
+export const ADMIN_EMAIL = 'hoangnam.mng@gmail.com';
+export const SECURITY_CODE = '040317';
