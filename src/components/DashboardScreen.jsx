@@ -5,7 +5,6 @@ import { VIDEOS, TOTAL_EXPECTED_USERS, ADMIN_EMAIL, SECURITY_CODE } from '../con
 import { motion, AnimatePresence } from 'framer-motion';
 import confetti from 'canvas-confetti';
 import {
-  Trophy,
   BarChart3,
   Users,
   TrendingUp,
@@ -26,7 +25,7 @@ import {
 } from 'lucide-react';
 
 // Animated number component
-const AnimatedNumber = ({ value, duration = 500 }) => {
+const AnimatedNumber = ({ value, duration = 800 }) => {
   const [displayValue, setDisplayValue] = useState(0);
   const previousValue = useRef(0);
 
@@ -59,7 +58,7 @@ const AnimatedNumber = ({ value, duration = 500 }) => {
 // Rank change indicator
 const RankIndicator = ({ previousRank, currentRank }) => {
   if (previousRank === currentRank || previousRank === 0) {
-    return <Minus size={12} className="text-slate-500" />;
+    return <Minus size={14} className="text-slate-600" />;
   }
   if (currentRank < previousRank) {
     return (
@@ -543,7 +542,6 @@ const DashboardScreen = ({ onExit }) => {
   // Listen to votes
   useEffect(() => {
     const q = collection(db, 'artifacts', activeAppId, 'public_votes');
-
     const unsubscribe = onSnapshot(q, (snapshot) => {
       const tempScores = {};
       VIDEOS.forEach(v => tempScores[v.id] = 0);
@@ -565,16 +563,17 @@ const DashboardScreen = ({ onExit }) => {
       })).sort((a, b) => b.score - a.score);
 
       const newPreviousRanks = {};
-      scores.forEach((item, idx) => {
+      lastSortedRef.current.forEach((item, idx) => {
         newPreviousRanks[item.id] = idx + 1;
       });
-      setPreviousRanks(newPreviousRanks);
 
+      setPreviousRanks(newPreviousRanks);
       setScores(sorted);
       setTotalVotes(count);
       setLastUpdate(new Date());
-    });
 
+      lastSortedRef.current = sorted;
+    });
     return () => unsubscribe();
   }, []);
 
@@ -672,10 +671,16 @@ const DashboardScreen = ({ onExit }) => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 text-white">
+    <div className="min-h-screen bg-dark-bg text-white relative overflow-hidden font-sans">
+      {/* Background decoration */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-primary-900/20 rounded-full blur-[150px] animate-blob" />
+        <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-secondary-900/20 rounded-full blur-[150px] animate-blob animation-delay-4000" />
+      </div>
+
       {/* Header */}
-      <div className="sticky top-0 z-10 bg-slate-900/95 backdrop-blur-lg border-b border-slate-800">
-        <div className="max-w-5xl mx-auto px-6 py-4">
+      <div className="sticky top-0 z-20 bg-slate-950/80 backdrop-blur-xl border-b border-white/5">
+        <div className="max-w-7xl mx-auto px-6 py-4">
           <div className="flex justify-between items-center">
             <div className="flex items-center gap-4">
               <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-xl flex items-center justify-center shadow-lg shadow-blue-500/20">
@@ -702,11 +707,11 @@ const DashboardScreen = ({ onExit }) => {
                   <Users size={14} />
                   Số phiếu
                 </div>
-                <div className="flex items-baseline gap-1">
-                  <span className="text-3xl font-bold font-mono text-green-400">
+                <div className="flex items-baseline justify-end gap-1">
+                  <span className="text-3xl font-display font-bold text-emerald-400 drop-shadow-sm">
                     <AnimatedNumber value={totalVotes} />
                   </span>
-                  <span className="text-slate-500">/{TOTAL_EXPECTED_USERS}</span>
+                  <span className="text-slate-600 font-medium">/{TOTAL_EXPECTED_USERS}</span>
                 </div>
               </div>
 
@@ -722,8 +727,8 @@ const DashboardScreen = ({ onExit }) => {
                   />
                   <defs>
                     <linearGradient id="progressGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                      <stop offset="0%" stopColor="#3B82F6" />
-                      <stop offset="100%" stopColor="#8B5CF6" />
+                      <stop offset="0%" stopColor="#38bdf8" />
+                      <stop offset="100%" stopColor="#a78bfa" />
                     </linearGradient>
                   </defs>
                 </svg>
@@ -753,35 +758,52 @@ const DashboardScreen = ({ onExit }) => {
         </AnimatePresence>
 
         {scores.length === 0 && (
-          <div className="text-center py-20">
-            <TrendingUp size={48} className="text-slate-700 mx-auto mb-4" />
-            <p className="text-slate-500">Chưa có phiếu bầu nào</p>
+          <div className="text-center py-32 glass-card rounded-3xl border-dashed border-white/10">
+            <div className="w-20 h-20 bg-white/5 rounded-full flex items-center justify-center mx-auto mb-6">
+              <Activity size={40} className="text-slate-600" />
+            </div>
+            <h3 className="text-xl font-bold text-slate-300">Đang chờ dữ liệu...</h3>
+            <p className="text-slate-500 mt-2">Hệ thống chưa ghi nhận phiếu bầu nào.</p>
           </div>
         )}
       </div>
 
       {/* Legend */}
-      <div className="max-w-5xl mx-auto px-6 pb-8">
-        <div className="bg-slate-900/50 rounded-2xl border border-slate-800 p-6">
-          <h3 className="text-sm font-bold text-slate-400 mb-4 flex items-center gap-2">
-            <Zap size={14} />
-            Quy đổi điểm
-          </h3>
-          <div className="flex flex-wrap gap-6">
-            <div className="flex items-center gap-2">
-              <span className="text-lg">🏆</span>
-              <span className="text-slate-300">Giải Nhất</span>
-              <span className="text-yellow-400 font-bold">+5 điểm</span>
+      <div className="max-w-7xl mx-auto px-6 pb-12">
+        <div className="bg-slate-900/40 backdrop-blur-md rounded-2xl border border-white/5 p-6 flex flex-col md:flex-row items-center justify-between gap-6">
+          <div className="flex items-center gap-3">
+            <div className="p-2 bg-yellow-500/10 rounded-lg text-yellow-500">
+              <Zap size={18} />
             </div>
-            <div className="flex items-center gap-2">
-              <span className="text-lg">🥈</span>
-              <span className="text-slate-300">Giải Nhì</span>
-              <span className="text-slate-400 font-bold">+3 điểm</span>
+            <div>
+              <h3 className="text-sm font-bold text-white">Cơ chế tính điểm</h3>
+              <p className="text-xs text-slate-400">Điểm số được cập nhật theo thời gian thực</p>
             </div>
-            <div className="flex items-center gap-2">
-              <span className="text-lg">🥉</span>
-              <span className="text-slate-300">Giải Ba</span>
-              <span className="text-amber-600 font-bold">+2 điểm</span>
+          </div>
+
+          <div className="flex flex-wrap items-center gap-8">
+            <div className="flex items-center gap-3 bg-white/5 px-4 py-2 rounded-xl border border-white/5">
+              <Trophy size={20} className="text-yellow-400" />
+              <div className="flex flex-col">
+                <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Giải Nhất</span>
+                <span className="text-yellow-400 font-bold font-display text-lg">+5 pts</span>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-3 bg-white/5 px-4 py-2 rounded-xl border border-white/5">
+              <Medal size={20} className="text-slate-300" />
+              <div className="flex flex-col">
+                <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Giải Nhì</span>
+                <span className="text-slate-300 font-bold font-display text-lg">+3 pts</span>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-3 bg-white/5 px-4 py-2 rounded-xl border border-white/5">
+              <Medal size={20} className="text-amber-600" />
+              <div className="flex flex-col">
+                <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Giải Ba</span>
+                <span className="text-amber-600 font-bold font-display text-lg">+2 pts</span>
+              </div>
             </div>
           </div>
         </div>

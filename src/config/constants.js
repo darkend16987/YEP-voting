@@ -43,6 +43,7 @@ export const VIDEOS = [
 ];
 
 // Cơ cấu giải thưởng và Giới hạn
+// Cơ cấu giải thưởng và Giới hạn
 export const AWARDS = [
   {
     id: 'none',
@@ -54,7 +55,6 @@ export const AWARDS = [
     bgColor: 'bg-slate-700',
     textColor: 'text-slate-400',
     selectedBg: 'bg-slate-600',
-    emoji: ''
   },
   {
     id: 'first',
@@ -66,7 +66,6 @@ export const AWARDS = [
     textColor: 'text-yellow-400',
     selectedBg: 'bg-gradient-to-r from-yellow-500 to-amber-500',
     borderColor: 'border-yellow-500/50',
-    emoji: '🏆',
     description: '5 điểm - Tối đa 1 giải'
   },
   {
@@ -79,7 +78,6 @@ export const AWARDS = [
     textColor: 'text-slate-300',
     selectedBg: 'bg-gradient-to-r from-slate-400 to-slate-500',
     borderColor: 'border-slate-400/50',
-    emoji: '🥈',
     description: '3 điểm - Tối đa 2 giải'
   },
   {
@@ -92,7 +90,6 @@ export const AWARDS = [
     textColor: 'text-amber-600',
     selectedBg: 'bg-gradient-to-r from-amber-600 to-amber-700',
     borderColor: 'border-amber-600/50',
-    emoji: '🥉',
     description: '2 điểm - Tối đa 3 giải'
   },
 ];
