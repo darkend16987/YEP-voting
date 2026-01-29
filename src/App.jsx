@@ -26,45 +26,69 @@ export default function App() {
   const [isAdminMode, setIsAdminMode] = useState(false);
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
-      if (currentUser) {
-        // Validate email
-        const validation = await validateEmail(currentUser.email);
+    let unsubVote = null;
 
-        if (!validation.allowed) {
-          setAuthError("Email này không có quyền truy cập hệ thống.");
+    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
+      console.log('[Auth] State changed:', currentUser?.email || 'No user');
+
+      if (currentUser) {
+        try {
+          // Validate email
+          console.log('[Auth] Validating email:', currentUser.email);
+          const validation = await validateEmail(currentUser.email);
+          console.log('[Auth] Validation result:', validation);
+
+          if (!validation.allowed) {
+            console.log('[Auth] Email not allowed, signing out');
+            setAuthError("Email này không có quyền truy cập hệ thống.");
+            await signOut(auth);
+            setAuthChecking(false);
+            return;
+          }
+
+          // Subscribe to user's vote status
+          console.log('[Auth] Email allowed, subscribing to vote status');
+          const voteDocRef = doc(db, 'artifacts', activeAppId, 'users', currentUser.uid, 'vote_entry');
+          unsubVote = onSnapshot(voteDocRef, (docSnap) => {
+            if (docSnap.exists()) {
+              setHasVoted(true);
+              // Copy data to public collection for Dashboard
+              const publicVoteRef = doc(db, 'artifacts', activeAppId, 'public', 'data', 'all_votes', currentUser.uid);
+              setDoc(publicVoteRef, docSnap.data());
+            } else {
+              setHasVoted(false);
+            }
+          }, (error) => {
+            console.error('[Auth] Vote snapshot error:', error);
+          });
+
+          setUser(currentUser);
+          setAuthError('');
+          setAuthChecking(false);
+          console.log('[Auth] User set successfully');
+        } catch (error) {
+          console.error('[Auth] Error during validation:', error);
+          setAuthError(`Lỗi xác thực: ${error.message}`);
           await signOut(auth);
           setAuthChecking(false);
-          return;
         }
-
-        // Subscribe to user's vote status
-        const voteDocRef = doc(db, 'artifacts', activeAppId, 'users', currentUser.uid, 'vote_entry');
-        const unsubVote = onSnapshot(voteDocRef, (docSnap) => {
-          if (docSnap.exists()) {
-            setHasVoted(true);
-            // Copy data to public collection for Dashboard
-            const publicVoteRef = doc(db, 'artifacts', activeAppId, 'public', 'data', 'all_votes', currentUser.uid);
-            setDoc(publicVoteRef, docSnap.data());
-          } else {
-            setHasVoted(false);
-          }
-        });
-
-        setUser(currentUser);
-        setAuthError('');
-        setAuthChecking(false); // FIX: Phải set authChecking = false khi user hợp lệ
-
-        // Cleanup vote subscription when user changes
-        return () => unsubVote();
       } else {
         setUser(null);
         setHasVoted(false);
+        setAuthChecking(false);
+        if (unsubVote) {
+          unsubVote();
+          unsubVote = null;
+        }
       }
-      setAuthChecking(false);
     });
 
-    return () => unsubscribe();
+    return () => {
+      unsubscribe();
+      if (unsubVote) {
+        unsubVote();
+      }
+    };
   }, []);
 
   const toggleAdmin = () => setIsAdminMode(!isAdminMode);

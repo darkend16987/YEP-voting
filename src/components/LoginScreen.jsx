@@ -31,6 +31,8 @@ const LoginScreen = ({ error, onAdminClick }) => {
         // Người dùng click nhiều lần, không cần hiển thị lỗi
       } else if (err.code === 'auth/network-request-failed') {
         setLoginError('Lỗi kết nối mạng. Vui lòng kiểm tra internet và thử lại.');
+      } else if (err.code === 'auth/unauthorized-domain') {
+        setLoginError('Domain chưa được cấu hình trong Firebase. Vui lòng liên hệ Admin để thêm domain vào Authentication → Settings → Authorized domains.');
       } else {
         setLoginError(`Đăng nhập thất bại: ${err.message}`);
       }
