@@ -182,7 +182,8 @@ const DashboardScreen = ({ onExit }) => {
   const [lastUpdate, setLastUpdate] = useState(null);
 
   useEffect(() => {
-    const q = collection(db, 'artifacts', activeAppId, 'public', 'data', 'all_votes');
+    // Path: artifacts/{appId}/public_votes (3 segments - valid collection path)
+    const q = collection(db, 'artifacts', activeAppId, 'public_votes');
 
     const unsubscribe = onSnapshot(q, (snapshot) => {
       const tempScores = {};

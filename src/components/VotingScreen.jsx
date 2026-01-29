@@ -268,7 +268,8 @@ const VotingScreen = ({ user, existingVote }) => {
         if (award && award.point > 0) pointsMap[vid] = award.point;
       });
 
-      const voteRef = doc(db, 'artifacts', activeAppId, 'users', user.uid, 'vote_entry');
+      // Path: artifacts/{appId}/user_votes/{uid} (4 segments - valid)
+      const voteRef = doc(db, 'artifacts', activeAppId, 'user_votes', user.uid);
       await setDoc(voteRef, {
         email: user.email,
         name: user.displayName,

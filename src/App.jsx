@@ -47,13 +47,15 @@ export default function App() {
           }
 
           // Subscribe to user's vote status
+          // Path: artifacts/{appId}/user_votes/{uid} (4 segments - valid)
           console.log('[Auth] Email allowed, subscribing to vote status');
-          const voteDocRef = doc(db, 'artifacts', activeAppId, 'users', currentUser.uid, 'vote_entry');
+          const voteDocRef = doc(db, 'artifacts', activeAppId, 'user_votes', currentUser.uid);
           unsubVote = onSnapshot(voteDocRef, (docSnap) => {
             if (docSnap.exists()) {
               setHasVoted(true);
               // Copy data to public collection for Dashboard
-              const publicVoteRef = doc(db, 'artifacts', activeAppId, 'public', 'data', 'all_votes', currentUser.uid);
+              // Path: artifacts/{appId}/public_votes/{uid} (4 segments - valid)
+              const publicVoteRef = doc(db, 'artifacts', activeAppId, 'public_votes', currentUser.uid);
               setDoc(publicVoteRef, docSnap.data());
             } else {
               setHasVoted(false);
