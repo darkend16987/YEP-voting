@@ -1,23 +1,46 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { signInWithPopup } from 'firebase/auth';
 import { auth, googleProvider } from '../config/firebase';
 import {
-  Trophy,
+  Film,
   AlertCircle,
   Sparkles,
   Video,
   Users,
-  Star
+  Star,
+  Clapperboard
 } from 'lucide-react';
 
 const LoginScreen = ({ error, onAdminClick }) => {
+  const [loginError, setLoginError] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+
   const handleLogin = async () => {
+    setLoginError('');
+    setIsLoading(true);
     try {
       await signInWithPopup(auth, googleProvider);
     } catch (err) {
       console.error("Login failed", err);
+      // Hiển thị lỗi cho người dùng
+      if (err.code === 'auth/popup-closed-by-user') {
+        setLoginError('Bạn đã đóng cửa sổ đăng nhập. Vui lòng thử lại.');
+      } else if (err.code === 'auth/popup-blocked') {
+        setLoginError('Popup bị chặn. Vui lòng cho phép popup trong trình duyệt.');
+      } else if (err.code === 'auth/cancelled-popup-request') {
+        // Người dùng click nhiều lần, không cần hiển thị lỗi
+      } else if (err.code === 'auth/network-request-failed') {
+        setLoginError('Lỗi kết nối mạng. Vui lòng kiểm tra internet và thử lại.');
+      } else {
+        setLoginError(`Đăng nhập thất bại: ${err.message}`);
+      }
+    } finally {
+      setIsLoading(false);
     }
   };
+
+  // Kết hợp cả lỗi từ props và lỗi nội bộ
+  const displayError = error || loginError;
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 flex flex-col items-center justify-center p-4 text-white relative overflow-hidden">
@@ -31,21 +54,30 @@ const LoginScreen = ({ error, onAdminClick }) => {
       {/* Main card */}
       <div className="w-full max-w-md relative z-10">
         <div className="bg-slate-900/80 backdrop-blur-xl p-8 rounded-3xl shadow-2xl border border-slate-700/50 text-center">
-          {/* Logo/Icon */}
-          <div className="relative mx-auto mb-8">
-            <div className="w-24 h-24 bg-gradient-to-br from-yellow-400 to-amber-500 rounded-2xl flex items-center justify-center mx-auto shadow-xl shadow-yellow-500/20 transform rotate-3 hover:rotate-0 transition-transform">
-              <Trophy size={48} className="text-slate-900" />
+          {/* Company Logo */}
+          <div className="mb-4">
+            <div className="text-xs text-slate-500 uppercase tracking-widest mb-2">Powered by</div>
+            <div className="text-2xl font-bold bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
+              INNOTECH
             </div>
-            <div className="absolute -top-2 -right-2 w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center shadow-lg">
+          </div>
+
+          {/* Contest Icon */}
+          <div className="relative mx-auto mb-6">
+            <div className="w-20 h-20 bg-gradient-to-br from-purple-500 to-pink-500 rounded-2xl flex items-center justify-center mx-auto shadow-xl shadow-purple-500/30 transform rotate-3 hover:rotate-0 transition-transform">
+              <Clapperboard size={40} className="text-white" />
+            </div>
+            <div className="absolute -top-2 -right-2 w-8 h-8 bg-yellow-500 rounded-full flex items-center justify-center shadow-lg animate-pulse">
               <Sparkles size={16} className="text-white" />
             </div>
           </div>
 
           {/* Title */}
-          <h1 className="text-3xl font-bold mb-2 bg-gradient-to-r from-white to-slate-300 bg-clip-text text-transparent">
-            Year End Voting
+          <h1 className="text-2xl font-bold mb-1 bg-gradient-to-r from-yellow-400 via-pink-500 to-purple-500 bg-clip-text text-transparent">
+            INNO YEP CLIP CONTEST
           </h1>
-          <p className="text-slate-400 mb-2">Bình chọn Video Cuối Năm 2024</p>
+          <p className="text-3xl font-black text-white mb-2">2025</p>
+          <p className="text-slate-400 mb-2">Bình chọn Video Clip xuất sắc nhất</p>
 
           {/* Features */}
           <div className="flex justify-center gap-6 my-6 text-sm text-slate-500">
@@ -64,12 +96,12 @@ const LoginScreen = ({ error, onAdminClick }) => {
           </div>
 
           {/* Error message */}
-          {error && (
+          {displayError && (
             <div className="bg-red-500/10 border border-red-500/30 text-red-300 p-4 rounded-xl mb-6 text-sm flex items-start gap-3">
               <AlertCircle size={20} className="shrink-0 mt-0.5" />
               <div className="text-left">
                 <p className="font-medium">Không thể đăng nhập</p>
-                <p className="text-red-400/80 text-xs mt-1">{error}</p>
+                <p className="text-red-400/80 text-xs mt-1">{displayError}</p>
               </div>
             </div>
           )}
@@ -77,14 +109,24 @@ const LoginScreen = ({ error, onAdminClick }) => {
           {/* Login button */}
           <button
             onClick={handleLogin}
-            className="w-full bg-white text-slate-900 font-bold py-4 px-6 rounded-xl hover:bg-slate-100 transition-all flex items-center justify-center gap-3 shadow-lg hover:shadow-xl hover:scale-[1.02] active:scale-[0.98]"
+            disabled={isLoading}
+            className="w-full bg-white text-slate-900 font-bold py-4 px-6 rounded-xl hover:bg-slate-100 transition-all flex items-center justify-center gap-3 shadow-lg hover:shadow-xl hover:scale-[1.02] active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
           >
-            <img
-              src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg"
-              className="w-6 h-6"
-              alt="Google"
-            />
-            <span>Đăng nhập bằng Google</span>
+            {isLoading ? (
+              <>
+                <div className="w-6 h-6 border-2 border-slate-400 border-t-slate-900 rounded-full animate-spin" />
+                <span>Đang đăng nhập...</span>
+              </>
+            ) : (
+              <>
+                <img
+                  src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg"
+                  className="w-6 h-6"
+                  alt="Google"
+                />
+                <span>Đăng nhập bằng Google</span>
+              </>
+            )}
           </button>
 
           <p className="mt-4 text-xs text-slate-500">
