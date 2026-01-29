@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(dir /S \"C:\\\\Users\\\\MKT-01\\\\.claude-worktrees\\\\YEP-voting\\\\zealous-proskuriakova\")",
+      "Bash(npm install)",
+      "Bash(npm run build:*)",
+      "Bash(npm install:*)"
+    ]
+  }
+}
