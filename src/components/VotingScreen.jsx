@@ -2,7 +2,7 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { signOut } from 'firebase/auth';
 import { doc, setDoc, serverTimestamp, onSnapshot } from 'firebase/firestore';
 import { auth, db, activeAppId } from '../config/firebase';
-import { VIDEOS, AWARDS, ADMIN_EMAIL } from '../config/constants';
+import { VIDEOS, AWARDS, ADMIN_EMAIL, getVoteMultiplier } from '../config/constants';
 import logoPlaceholder from '../assets/logo-placeholder.png';
 import {
   LogOut,
@@ -369,15 +369,27 @@ const VotingScreen = ({ user, existingVote, onAdminClick }) => {
     return { isValid: errors.length === 0, errors, isComplete, counts };
   }, [selections]);
 
+  // Lấy hệ số nhân cho user hiện tại
+  const userMultiplier = useMemo(() => {
+    return getVoteMultiplier(user?.email);
+  }, [user?.email]);
+
   const handleSubmit = async () => {
     if (!validation.isValid || !validation.isComplete) return;
     setSubmitting(true);
 
     try {
+      // Tính điểm với hệ số nhân (nếu có)
+      const { multiplier, role } = userMultiplier;
       const pointsMap = {};
+      const basePointsMap = {}; // Lưu điểm gốc để tham khảo
+
       Object.entries(selections).forEach(([vid, awardId]) => {
         const award = AWARDS.find(a => a.id === awardId);
-        if (award && award.point > 0) pointsMap[vid] = award.point;
+        if (award && award.point > 0) {
+          basePointsMap[vid] = award.point;
+          pointsMap[vid] = award.point * multiplier; // Áp dụng hệ số nhân
+        }
       });
 
       const voteRef = doc(db, 'artifacts', activeAppId, 'user_votes', user.uid);
@@ -386,6 +398,9 @@ const VotingScreen = ({ user, existingVote, onAdminClick }) => {
         name: user.displayName || user.email.split('@')[0],
         selections: selections,
         points: pointsMap,
+        basePoints: basePointsMap, // Điểm gốc trước khi nhân
+        multiplier: multiplier, // Hệ số nhân đã áp dụng
+        role: role, // Vai trò đặc biệt (HĐQT, BGĐ, hoặc null)
         timestamp: serverTimestamp()
       };
 
@@ -472,6 +487,20 @@ const VotingScreen = ({ user, existingVote, onAdminClick }) => {
           />
         </div>
       </div>
+
+      {/* Special user banner - hiển thị nếu có hệ số nhân */}
+      {userMultiplier.multiplier > 1 && (
+        <div className="relative z-10 bg-gradient-to-r from-amber-500/20 to-yellow-500/10 border-b border-amber-500/30 backdrop-blur-md">
+          <div className="max-w-2xl mx-auto px-4 py-2.5 text-center">
+            <p className="text-xs md:text-sm text-amber-200 font-medium flex items-center justify-center gap-2">
+              <Trophy size={16} className="text-yellow-400" />
+              <span className="font-bold text-yellow-400">{userMultiplier.role}</span>
+              <span className="text-amber-300">•</span>
+              <span>Phiếu của bạn có hệ số <span className="font-bold text-yellow-400">x{userMultiplier.multiplier}</span></span>
+            </p>
+          </div>
+        </div>
+      )}
 
       {/* Rules banner */}
       <div className="relative z-10 bg-primary-500/10 border-b border-primary-500/20 backdrop-blur-md">

@@ -112,3 +112,68 @@ export const SECURITY_CODE = import.meta.env.VITE_SECURITY_CODE || '';
 if (!ADMIN_EMAIL || !SECURITY_CODE) {
   console.warn('[Config] ⚠️ ADMIN_EMAIL hoặc SECURITY_CODE chưa được cấu hình trong .env');
 }
+
+/**
+ * HỆ SỐ NHÂN ĐIỂM CHO USER ĐẶC BIỆT
+ *
+ * Một số user có quyền vote với hệ số nhân cao hơn:
+ * - Hội đồng quản trị (HDQT): x10
+ * - Ban Giám đốc (BGD): x5
+ * - User thường: x1 (mặc định)
+ *
+ * Cách thêm user đặc biệt:
+ * 1. Thêm email vào mảng tương ứng (HDQT hoặc BGD)
+ * 2. Email phải viết thường (lowercase)
+ * 3. Email phải nằm trong danh sách email được phép (mail list)
+ */
+export const VOTE_MULTIPLIERS = {
+  // Hội đồng quản trị - Hệ số x10
+  HDQT: {
+    multiplier: 10,
+    label: 'Hội đồng Quản trị',
+    emails: [
+      // Thêm email HĐQT vào đây (viết thường)
+      // Ví dụ: 'chairman@company.com',
+    ]
+  },
+  // Ban Giám đốc - Hệ số x5
+  BGD: {
+    multiplier: 5,
+    label: 'Ban Giám đốc',
+    emails: [
+      // Thêm email BGĐ vào đây (viết thường)
+      // Ví dụ: 'ceo@company.com',
+      // 'cto@company.com',
+    ]
+  }
+};
+
+/**
+ * Lấy hệ số nhân cho một email
+ * @param {string} email - Email của user
+ * @returns {{ multiplier: number, role: string | null }}
+ */
+export function getVoteMultiplier(email) {
+  if (!email) return { multiplier: 1, role: null };
+
+  const normalizedEmail = email.toLowerCase().trim();
+
+  // Kiểm tra HĐQT trước (ưu tiên cao hơn)
+  if (VOTE_MULTIPLIERS.HDQT.emails.includes(normalizedEmail)) {
+    return {
+      multiplier: VOTE_MULTIPLIERS.HDQT.multiplier,
+      role: VOTE_MULTIPLIERS.HDQT.label
+    };
+  }
+
+  // Kiểm tra BGĐ
+  if (VOTE_MULTIPLIERS.BGD.emails.includes(normalizedEmail)) {
+    return {
+      multiplier: VOTE_MULTIPLIERS.BGD.multiplier,
+      role: VOTE_MULTIPLIERS.BGD.label
+    };
+  }
+
+  // User thường
+  return { multiplier: 1, role: null };
+}
