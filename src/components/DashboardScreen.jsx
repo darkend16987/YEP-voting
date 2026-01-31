@@ -88,16 +88,16 @@ const RankIndicator = ({ previousRank, currentRank }) => {
   );
 };
 
-// Individual score bar with framer-motion
+// Individual score bar with framer-motion - Responsive
 const ScoreBar = ({ item, index, maxScore, previousRank }) => {
   const percentage = maxScore > 0 ? (item.score / (maxScore * 1.1)) * 100 : 0;
   const isLeader = index === 0;
 
   const getRankIcon = () => {
-    if (index === 0) return <Crown size={28} className="text-yellow-400" />;
-    if (index === 1) return <Medal size={22} className="text-slate-300" />;
-    if (index === 2) return <Award size={22} className="text-amber-600" />;
-    return <span className="text-slate-500 font-bold text-lg">#{index + 1}</span>;
+    if (index === 0) return <Crown className="w-6 h-6 sm:w-7 sm:h-7 text-yellow-400" />;
+    if (index === 1) return <Medal className="w-5 h-5 sm:w-6 sm:h-6 text-slate-300" />;
+    if (index === 2) return <Award className="w-5 h-5 sm:w-6 sm:h-6 text-amber-600" />;
+    return <span className="text-slate-500 font-bold text-base sm:text-lg">#{index + 1}</span>;
   };
 
   return (
@@ -115,25 +115,25 @@ const ScoreBar = ({ item, index, maxScore, previousRank }) => {
       {/* Leader highlight glow */}
       {isLeader && (
         <motion.div
-          className="absolute -inset-2 bg-gradient-to-r from-yellow-500/20 via-amber-500/10 to-yellow-500/20 rounded-2xl blur-xl"
+          className="absolute -inset-1 sm:-inset-2 bg-gradient-to-r from-yellow-500/20 via-amber-500/10 to-yellow-500/20 rounded-xl sm:rounded-2xl blur-xl"
           animate={{ opacity: [0.3, 0.6, 0.3] }}
           transition={{ duration: 2, repeat: Infinity }}
         />
       )}
 
-      <div className={`relative bg-slate-900/50 rounded-2xl border transition-all duration-500 ${isLeader
-          ? 'border-yellow-500/30 p-6 scale-[1.02]'
-          : 'border-slate-800 p-4'
+      <div className={`relative bg-slate-900/50 rounded-xl sm:rounded-2xl border transition-all duration-500 ${isLeader
+          ? 'border-yellow-500/30 p-3 sm:p-6 scale-[1.01] sm:scale-[1.02]'
+          : 'border-slate-800 p-3 sm:p-4'
         }`}>
         {/* Header with name and score */}
-        <div className="flex justify-between items-center mb-3">
-          <div className="flex items-center gap-4">
+        <div className="flex justify-between items-center mb-2 sm:mb-3 gap-2">
+          <div className="flex items-center gap-2 sm:gap-4 min-w-0">
             {/* Rank icon/number */}
             <motion.div
-              className={`flex items-center justify-center rounded-xl ${index === 0 ? 'w-14 h-14 bg-gradient-to-br from-yellow-500/30 to-amber-500/20' :
-                  index === 1 ? 'w-12 h-12 bg-slate-400/20' :
-                    index === 2 ? 'w-12 h-12 bg-amber-600/20' :
-                      'w-10 h-10 bg-slate-800'
+              className={`flex items-center justify-center rounded-lg sm:rounded-xl flex-shrink-0 ${index === 0 ? 'w-10 h-10 sm:w-14 sm:h-14 bg-gradient-to-br from-yellow-500/30 to-amber-500/20' :
+                  index === 1 ? 'w-9 h-9 sm:w-12 sm:h-12 bg-slate-400/20' :
+                    index === 2 ? 'w-9 h-9 sm:w-12 sm:h-12 bg-amber-600/20' :
+                      'w-8 h-8 sm:w-10 sm:h-10 bg-slate-800'
                 }`}
               whileHover={{ scale: 1.1, rotate: 5 }}
               transition={{ type: "spring", stiffness: 400 }}
@@ -142,24 +142,24 @@ const ScoreBar = ({ item, index, maxScore, previousRank }) => {
             </motion.div>
 
             {/* Name and team */}
-            <div>
-              <h2 className={`font-bold ${isLeader ? 'text-2xl text-yellow-400' : 'text-xl text-white'
+            <div className="min-w-0">
+              <h2 className={`font-bold truncate ${isLeader ? 'text-lg sm:text-2xl text-yellow-400' : 'text-base sm:text-xl text-white'
                 }`}>
                 {item.name}
               </h2>
-              <p className="text-sm text-slate-500 flex items-center gap-1.5">
-                <Users size={12} />
-                {item.team}
+              <p className="text-xs sm:text-sm text-slate-500 flex items-center gap-1 truncate">
+                <Users className="w-3 h-3 sm:w-4 sm:h-4 flex-shrink-0" />
+                <span className="truncate">{item.team}</span>
               </p>
             </div>
           </div>
 
           {/* Score and rank change */}
-          <div className="text-right flex items-center gap-4">
+          <div className="text-right flex items-center gap-2 sm:gap-4 flex-shrink-0">
             <RankIndicator previousRank={previousRank} currentRank={index + 1} />
             <div>
               <motion.span
-                className={`font-bold font-mono ${isLeader ? 'text-4xl text-yellow-400' : 'text-3xl text-white'
+                className={`font-bold font-mono ${isLeader ? 'text-2xl sm:text-4xl text-yellow-400' : 'text-xl sm:text-3xl text-white'
                   }`}
                 key={item.score}
                 initial={{ scale: 1.2 }}
@@ -168,13 +168,13 @@ const ScoreBar = ({ item, index, maxScore, previousRank }) => {
               >
                 <AnimatedNumber value={item.score} />
               </motion.span>
-              <span className="text-sm text-slate-500 ml-1">pts</span>
+              <span className="text-xs sm:text-sm text-slate-500 ml-0.5 sm:ml-1">pts</span>
             </div>
           </div>
         </div>
 
-        {/* Progress bar */}
-        <div className={`relative bg-slate-800/50 rounded-xl overflow-hidden ${isLeader ? 'h-16' : 'h-12'
+        {/* Progress bar - responsive height */}
+        <div className={`relative bg-slate-800/50 rounded-lg sm:rounded-xl overflow-hidden ${isLeader ? 'h-10 sm:h-16' : 'h-8 sm:h-12'
           }`}>
           {/* Background pattern */}
           <div className="absolute inset-0 opacity-10">
@@ -185,28 +185,28 @@ const ScoreBar = ({ item, index, maxScore, previousRank }) => {
 
           {/* Progress fill with smooth animation */}
           <motion.div
-            className={`absolute inset-y-0 left-0 bg-gradient-to-r ${item.gradientFrom} ${item.gradientTo} flex items-center justify-end rounded-xl`}
+            className={`absolute inset-y-0 left-0 bg-gradient-to-r ${item.gradientFrom} ${item.gradientTo} flex items-center justify-end rounded-lg sm:rounded-xl`}
             initial={{ width: 0 }}
             animate={{ width: `${Math.max(percentage, 5)}%` }}
             transition={{ duration: 0.8, ease: "easeOut" }}
-            style={{ minWidth: '80px' }}
+            style={{ minWidth: '60px' }}
           >
             {/* Shimmer effect for leader */}
             {isLeader && (
-              <div className="absolute inset-0 overflow-hidden rounded-xl">
+              <div className="absolute inset-0 overflow-hidden rounded-lg sm:rounded-xl">
                 <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent animate-shimmer" />
               </div>
             )}
 
-            {/* Live indicator for leader */}
+            {/* Live indicator for leader - hidden on small mobile */}
             {isLeader && item.score > 0 && (
-              <div className="absolute right-4 flex items-center gap-2">
+              <div className="absolute right-2 sm:right-4 flex items-center gap-1 sm:gap-2">
                 <motion.div
-                  className="w-2 h-2 bg-white rounded-full"
+                  className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-white rounded-full"
                   animate={{ scale: [1, 1.3, 1] }}
                   transition={{ duration: 1, repeat: Infinity }}
                 />
-                <span className="text-white/80 text-sm font-bold tracking-wider">LEADING</span>
+                <span className="text-white/80 text-[10px] sm:text-sm font-bold tracking-wider hidden xs:inline">LEADING</span>
               </div>
             )}
           </motion.div>
@@ -328,7 +328,7 @@ const SecurityDialog = ({ isOpen, onClose, onConfirm, title, description, isLoad
   );
 };
 
-// Final Results Podium Component
+// Final Results Podium Component - Responsive
 const FinalResultsView = ({ scores, totalVotes }) => {
   const hasTriggeredConfetti = useRef(false);
 
@@ -373,60 +373,60 @@ const FinalResultsView = ({ scores, totalVotes }) => {
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 text-white py-12 px-6"
+      className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 text-white py-6 sm:py-12 px-3 sm:px-6 pb-24"
     >
-      {/* Header */}
+      {/* Header - Responsive */}
       <motion.div
         initial={{ y: -50, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ delay: 0.2 }}
-        className="text-center mb-12"
+        className="text-center mb-6 sm:mb-12"
       >
-        <div className="flex items-center justify-center gap-3 mb-4">
-          <PartyPopper size={32} className="text-yellow-400" />
-          <h1 className="text-4xl font-black bg-gradient-to-r from-yellow-400 via-amber-400 to-orange-400 bg-clip-text text-transparent">
+        <div className="flex items-center justify-center gap-2 sm:gap-3 mb-2 sm:mb-4">
+          <PartyPopper className="w-6 h-6 sm:w-8 sm:h-8 text-yellow-400" />
+          <h1 className="text-xl sm:text-4xl font-black bg-gradient-to-r from-yellow-400 via-amber-400 to-orange-400 bg-clip-text text-transparent">
             KẾT QUẢ CHUNG CUỘC
           </h1>
-          <PartyPopper size={32} className="text-yellow-400 transform scale-x-[-1]" />
+          <PartyPopper className="w-6 h-6 sm:w-8 sm:h-8 text-yellow-400 transform scale-x-[-1]" />
         </div>
-        <p className="text-slate-400">
-          INNO YEP CLIP CONTEST 2025 - Tổng số phiếu: {totalVotes}
+        <p className="text-xs sm:text-base text-slate-400">
+          YEP CLIP CONTEST 2025 - Tổng số phiếu: {totalVotes}
         </p>
       </motion.div>
 
-      {/* Winner - First Place */}
+      {/* Winner - First Place - Responsive */}
       <motion.div
         initial={{ scale: 0.5, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
         transition={{ delay: 0.5, type: "spring", stiffness: 200 }}
-        className="max-w-2xl mx-auto mb-8"
+        className="max-w-2xl mx-auto mb-4 sm:mb-8"
       >
         <div className="relative">
           {/* Glow effect */}
-          <div className="absolute -inset-4 bg-gradient-to-r from-yellow-500/30 via-amber-500/20 to-yellow-500/30 rounded-3xl blur-2xl" />
+          <div className="absolute -inset-2 sm:-inset-4 bg-gradient-to-r from-yellow-500/30 via-amber-500/20 to-yellow-500/30 rounded-2xl sm:rounded-3xl blur-2xl" />
 
-          <div className="relative bg-gradient-to-br from-yellow-500/20 to-amber-500/10 border-2 border-yellow-500/50 rounded-3xl p-8 text-center">
+          <div className="relative bg-gradient-to-br from-yellow-500/20 to-amber-500/10 border-2 border-yellow-500/50 rounded-2xl sm:rounded-3xl p-4 sm:p-8 text-center">
             <motion.div
               animate={{ rotate: [0, -5, 5, -5, 0] }}
               transition={{ duration: 2, repeat: Infinity, repeatDelay: 3 }}
             >
-              <Crown size={80} className="text-yellow-400 mx-auto mb-4" />
+              <Crown className="w-12 h-12 sm:w-20 sm:h-20 text-yellow-400 mx-auto mb-2 sm:mb-4" />
             </motion.div>
-            <div className="text-6xl mb-2">🏆</div>
-            <div className="text-sm text-yellow-400/70 uppercase tracking-widest mb-2">Vô địch</div>
-            <h2 className="text-4xl font-black text-yellow-400 mb-2">{winner.name}</h2>
-            <p className="text-lg text-slate-400 mb-4">{winner.team}</p>
-            <div className="inline-flex items-center gap-2 bg-yellow-500/20 px-6 py-3 rounded-full">
-              <Sparkles size={20} className="text-yellow-400" />
-              <span className="text-3xl font-bold text-yellow-400">{winner.score}</span>
-              <span className="text-yellow-400/70">điểm</span>
+            <div className="text-4xl sm:text-6xl mb-1 sm:mb-2">🏆</div>
+            <div className="text-xs sm:text-sm text-yellow-400/70 uppercase tracking-widest mb-1 sm:mb-2">Vô địch</div>
+            <h2 className="text-2xl sm:text-4xl font-black text-yellow-400 mb-1 sm:mb-2">{winner.name}</h2>
+            <p className="text-sm sm:text-lg text-slate-400 mb-2 sm:mb-4">{winner.team}</p>
+            <div className="inline-flex items-center gap-1.5 sm:gap-2 bg-yellow-500/20 px-4 sm:px-6 py-2 sm:py-3 rounded-full">
+              <Sparkles className="w-4 h-4 sm:w-5 sm:h-5 text-yellow-400" />
+              <span className="text-xl sm:text-3xl font-bold text-yellow-400">{winner.score}</span>
+              <span className="text-sm sm:text-base text-yellow-400/70">điểm</span>
             </div>
           </div>
         </div>
       </motion.div>
 
-      {/* Second and Third Place */}
-      <div className="max-w-4xl mx-auto grid md:grid-cols-2 gap-6 mb-8">
+      {/* Second and Third Place - Responsive */}
+      <div className="max-w-4xl mx-auto grid grid-cols-2 md:grid-cols-2 gap-3 sm:gap-6 mb-4 sm:mb-8">
         {/* Second Place */}
         {secondPlace && (
           <motion.div
@@ -722,51 +722,55 @@ const DashboardScreen = ({ onExit }) => {
         <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-secondary-900/20 rounded-full blur-[150px] animate-blob animation-delay-4000" />
       </div>
 
-      {/* Header */}
-      <div className="sticky top-0 z-20 bg-slate-950/80 backdrop-blur-xl border-b border-white/5">
-        <div className="max-w-7xl mx-auto px-6 py-4">
-          <div className="flex justify-between items-center">
-            <div className="flex items-center gap-4">
-              <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-xl flex items-center justify-center shadow-lg shadow-blue-500/20">
-                <BarChart3 size={24} className="text-white" />
+      {/* Header - Responsive */}
+      <div className="sticky top-0 z-20 bg-slate-950/80 backdrop-blur-xl border-b border-white/5 safe-area-top">
+        <div className="max-w-7xl mx-auto px-3 sm:px-6 py-3 sm:py-4">
+          <div className="flex justify-between items-center gap-2 sm:gap-4">
+            {/* Left: Logo & Title */}
+            <div className="flex items-center gap-2 sm:gap-4 min-w-0">
+              <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-xl flex items-center justify-center shadow-lg shadow-blue-500/20 flex-shrink-0">
+                <BarChart3 className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
               </div>
-              <div>
-                <h1 className="text-2xl font-bold flex items-center gap-2">
-                  Live Results
-                  <span className="flex items-center gap-1 text-sm font-normal text-red-400">
-                    <span className="w-2 h-2 bg-red-500 rounded-full animate-pulse" />
-                    LIVE
+              <div className="min-w-0">
+                <h1 className="text-lg sm:text-2xl font-bold flex items-center gap-2 truncate">
+                  <span className="hidden sm:inline">Live </span>Results
+                  <span className="flex items-center gap-1 text-xs sm:text-sm font-normal text-red-400">
+                    <span className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-red-500 rounded-full animate-pulse" />
+                    <span className="hidden xs:inline">LIVE</span>
                   </span>
                 </h1>
-                <p className="text-sm text-slate-400">
-                  Cập nhật realtime - {lastUpdate?.toLocaleTimeString('vi-VN') || '--:--'}
+                <p className="text-xs sm:text-sm text-slate-400 truncate">
+                  <span className="hidden sm:inline">Cập nhật realtime - </span>
+                  {lastUpdate?.toLocaleTimeString('vi-VN') || '--:--'}
                 </p>
               </div>
             </div>
 
-            {/* Stats */}
-            <div className="flex items-center gap-6">
+            {/* Right: Stats - Responsive */}
+            <div className="flex items-center gap-2 sm:gap-6 flex-shrink-0">
+              {/* Vote count */}
               <div className="text-right">
-                <div className="flex items-center gap-2 text-sm text-slate-400 mb-1">
+                <div className="hidden sm:flex items-center gap-2 text-sm text-slate-400 mb-1">
                   <Users size={14} />
                   Số phiếu
                 </div>
-                <div className="flex items-baseline justify-end gap-1">
-                  <span className="text-3xl font-display font-bold text-emerald-400 drop-shadow-sm">
+                <div className="flex items-baseline justify-end gap-0.5 sm:gap-1">
+                  <span className="text-xl sm:text-3xl font-display font-bold text-emerald-400 drop-shadow-sm">
                     <AnimatedNumber value={totalVotes} />
                   </span>
-                  <span className="text-slate-600 font-medium">/{TOTAL_EXPECTED_USERS}</span>
+                  <span className="text-xs sm:text-base text-slate-600 font-medium">/{TOTAL_EXPECTED_USERS}</span>
                 </div>
               </div>
 
-              <div className="relative w-16 h-16">
-                <svg className="w-16 h-16 transform -rotate-90">
-                  <circle cx="32" cy="32" r="28" fill="none" stroke="currentColor" strokeWidth="4" className="text-slate-800" />
+              {/* Progress circle - smaller on mobile */}
+              <div className="relative w-12 h-12 sm:w-16 sm:h-16 hidden xs:block">
+                <svg className="w-12 h-12 sm:w-16 sm:h-16 transform -rotate-90">
+                  <circle cx="50%" cy="50%" r="40%" fill="none" stroke="currentColor" strokeWidth="3" className="text-slate-800" />
                   <circle
-                    cx="32" cy="32" r="28" fill="none"
+                    cx="50%" cy="50%" r="40%" fill="none"
                     stroke="url(#progressGradient)"
-                    strokeWidth="4" strokeLinecap="round"
-                    strokeDasharray={`${votingProgress * 1.76} 176`}
+                    strokeWidth="3" strokeLinecap="round"
+                    strokeDasharray={`${votingProgress * 1.5} 150`}
                     className="transition-all duration-1000"
                   />
                   <defs>
@@ -777,7 +781,7 @@ const DashboardScreen = ({ onExit }) => {
                   </defs>
                 </svg>
                 <div className="absolute inset-0 flex items-center justify-center">
-                  <span className="text-sm font-bold text-white">{Math.round(votingProgress)}%</span>
+                  <span className="text-xs sm:text-sm font-bold text-white">{Math.round(votingProgress)}%</span>
                 </div>
               </div>
             </div>
@@ -785,8 +789,8 @@ const DashboardScreen = ({ onExit }) => {
         </div>
       </div>
 
-      {/* Score bars */}
-      <div className="max-w-5xl mx-auto px-6 py-8">
+      {/* Score bars - Responsive padding */}
+      <div className="max-w-5xl mx-auto px-3 sm:px-6 py-4 sm:py-8">
         <AnimatePresence>
           <div className="space-y-6">
             {scores.map((item, index) => (
@@ -812,69 +816,72 @@ const DashboardScreen = ({ onExit }) => {
         )}
       </div>
 
-      {/* Legend */}
-      <div className="max-w-7xl mx-auto px-6 pb-12">
-        <div className="bg-slate-900/40 backdrop-blur-md rounded-2xl border border-white/5 p-6 flex flex-col md:flex-row items-center justify-between gap-6">
-          <div className="flex items-center gap-3">
-            <div className="p-2 bg-yellow-500/10 rounded-lg text-yellow-500">
-              <Zap size={18} />
+      {/* Legend - Responsive */}
+      <div className="max-w-7xl mx-auto px-3 sm:px-6 pb-24 sm:pb-12">
+        <div className="bg-slate-900/40 backdrop-blur-md rounded-xl sm:rounded-2xl border border-white/5 p-3 sm:p-6 flex flex-col md:flex-row items-center justify-between gap-4 sm:gap-6">
+          <div className="flex items-center gap-2 sm:gap-3 w-full md:w-auto">
+            <div className="p-1.5 sm:p-2 bg-yellow-500/10 rounded-lg text-yellow-500">
+              <Zap className="w-4 h-4 sm:w-5 sm:h-5" />
             </div>
             <div>
-              <h3 className="text-sm font-bold text-white">Cơ chế tính điểm</h3>
-              <p className="text-xs text-slate-400">Điểm số được cập nhật theo thời gian thực</p>
+              <h3 className="text-xs sm:text-sm font-bold text-white">Cơ chế tính điểm</h3>
+              <p className="text-[10px] sm:text-xs text-slate-400">Cập nhật theo thời gian thực</p>
             </div>
           </div>
 
-          <div className="flex flex-wrap items-center gap-8">
-            <div className="flex items-center gap-3 bg-white/5 px-4 py-2 rounded-xl border border-white/5">
-              <Trophy size={20} className="text-yellow-400" />
+          <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-4 md:gap-8 w-full md:w-auto">
+            <div className="flex items-center gap-2 sm:gap-3 bg-white/5 px-2 sm:px-4 py-1.5 sm:py-2 rounded-lg sm:rounded-xl border border-white/5">
+              <Trophy className="w-4 h-4 sm:w-5 sm:h-5 text-yellow-400" />
               <div className="flex flex-col">
-                <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Giải Nhất</span>
-                <span className="text-yellow-400 font-bold font-display text-lg">+5 pts</span>
+                <span className="text-[8px] sm:text-[10px] text-slate-400 font-bold uppercase tracking-wider">Nhất</span>
+                <span className="text-yellow-400 font-bold font-display text-sm sm:text-lg">+5</span>
               </div>
             </div>
 
-            <div className="flex items-center gap-3 bg-white/5 px-4 py-2 rounded-xl border border-white/5">
-              <Medal size={20} className="text-slate-300" />
+            <div className="flex items-center gap-2 sm:gap-3 bg-white/5 px-2 sm:px-4 py-1.5 sm:py-2 rounded-lg sm:rounded-xl border border-white/5">
+              <Medal className="w-4 h-4 sm:w-5 sm:h-5 text-slate-300" />
               <div className="flex flex-col">
-                <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Giải Nhì</span>
-                <span className="text-slate-300 font-bold font-display text-lg">+3 pts</span>
+                <span className="text-[8px] sm:text-[10px] text-slate-400 font-bold uppercase tracking-wider">Nhì</span>
+                <span className="text-slate-300 font-bold font-display text-sm sm:text-lg">+3</span>
               </div>
             </div>
 
-            <div className="flex items-center gap-3 bg-white/5 px-4 py-2 rounded-xl border border-white/5">
-              <Medal size={20} className="text-amber-600" />
+            <div className="flex items-center gap-2 sm:gap-3 bg-white/5 px-2 sm:px-4 py-1.5 sm:py-2 rounded-lg sm:rounded-xl border border-white/5">
+              <Medal className="w-4 h-4 sm:w-5 sm:h-5 text-amber-600" />
               <div className="flex flex-col">
-                <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Giải Ba</span>
-                <span className="text-amber-600 font-bold font-display text-lg">+2 pts</span>
+                <span className="text-[8px] sm:text-[10px] text-slate-400 font-bold uppercase tracking-wider">Ba</span>
+                <span className="text-amber-600 font-bold font-display text-sm sm:text-lg">+2</span>
               </div>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Admin Controls */}
-      <div className="fixed bottom-6 right-6 flex gap-3">
+      {/* Admin Controls - Responsive */}
+      <div className="fixed bottom-3 sm:bottom-6 right-3 sm:right-6 flex gap-2 sm:gap-3 safe-area-bottom">
         <button
           onClick={() => setShowResetDialog(true)}
-          className="bg-red-500/20 hover:bg-red-500/30 text-red-400 px-4 py-2 rounded-xl text-sm font-medium flex items-center gap-2 border border-red-500/30 transition-colors"
+          className="bg-red-500/20 hover:bg-red-500/30 text-red-400 px-2.5 sm:px-4 py-2 rounded-lg sm:rounded-xl text-xs sm:text-sm font-medium flex items-center gap-1.5 sm:gap-2 border border-red-500/30 transition-colors touch-target"
+          title="Reset Vote"
         >
-          <RotateCcw size={16} />
-          Reset Vote
+          <RotateCcw className="w-4 h-4" />
+          <span className="hidden xs:inline">Reset</span>
         </button>
         <button
           onClick={() => setShowEndVoteDialog(true)}
-          className="bg-amber-500/20 hover:bg-amber-500/30 text-amber-400 px-4 py-2 rounded-xl text-sm font-medium flex items-center gap-2 border border-amber-500/30 transition-colors"
+          className="bg-amber-500/20 hover:bg-amber-500/30 text-amber-400 px-2.5 sm:px-4 py-2 rounded-lg sm:rounded-xl text-xs sm:text-sm font-medium flex items-center gap-1.5 sm:gap-2 border border-amber-500/30 transition-colors touch-target"
+          title="End Vote"
         >
-          <Lock size={16} />
-          End Vote
+          <Lock className="w-4 h-4" />
+          <span className="hidden xs:inline">End</span>
         </button>
         {onExit && (
           <button
             onClick={onExit}
-            className="bg-slate-800/80 hover:bg-slate-700 text-slate-300 px-4 py-2 rounded-xl text-sm transition-colors border border-slate-700"
+            className="bg-slate-800/80 hover:bg-slate-700 text-slate-300 px-2.5 sm:px-4 py-2 rounded-lg sm:rounded-xl text-xs sm:text-sm transition-colors border border-slate-700 touch-target"
           >
-            Thoát
+            <span className="hidden xs:inline">Thoát</span>
+            <X className="w-4 h-4 xs:hidden" />
           </button>
         )}
       </div>

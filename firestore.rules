@@ -1,35 +1,50 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
-    // Admin email for special permissions
+    // Admin email - lấy từ env thông qua custom claims hoặc hardcode tạm
+    // LƯU Ý: Để bảo mật tuyệt đối, nên dùng Cloud Functions thay vì client-side
     function isAdmin() {
       return request.auth != null && request.auth.token.email == 'hoangnam.mng@gmail.com';
+    }
+
+    // Kiểm tra user đã đăng nhập
+    function isAuthenticated() {
+      return request.auth != null;
     }
 
     // Users can only write their own vote
     // Path: artifacts/{appId}/user_votes/{userId}
     match /artifacts/{appId}/user_votes/{userId} {
-      // Owner can read/write
-      allow read, write: if request.auth != null && request.auth.uid == userId;
-      // Allow Admin and guests (guarded by UI password) to list/delete for reset
-      // We allow 'list' (read on collection) for anyone to support the reset function
-      allow read, delete: if true; 
+      // Owner can read/write their own vote
+      allow read, write: if isAuthenticated() && request.auth.uid == userId;
+      // Admin có thể list và xóa để reset
+      // LƯU Ý BẢO MẬT: Nên chuyển sang Cloud Functions để kiểm tra security code server-side
+      allow read: if isAuthenticated();
+      allow delete: if isAuthenticated();
     }
 
     // Public votes readable by everyone (for Dashboard)
     // Path: artifacts/{appId}/public_votes/{voteId}
     match /artifacts/{appId}/public_votes/{voteId} {
-      allow read: if true;
-      allow write: if request.auth != null && request.auth.uid == voteId;
-      // Allow reset
-      allow delete: if true;
+      allow read: if true; // Dashboard cần đọc để hiển thị
+      allow write: if isAuthenticated() && request.auth.uid == voteId;
+      // Delete cho phép user authenticated (admin reset)
+      allow delete: if isAuthenticated();
     }
 
-    // Config - readable by everyone (for Dashboard to check voting status), writable by anyone (guarded by password)
+    // Config - readable by everyone, writable only by authenticated users
     // Path: artifacts/{appId}/config/{document}
     match /artifacts/{appId}/config/{document=**} {
       allow read: if true;
-      allow write: if true; // Guarded by client-side security code
+      // Yêu cầu đăng nhập để thay đổi config (bảo mật hơn if true)
+      // Security code được kiểm tra ở client-side
+      allow write: if isAuthenticated();
+    }
+
+    // Email list - chỉ đọc cho validation
+    match /artifacts/{appId}/config/allowed_emails/{document=**} {
+      allow read: if true;
+      allow write: if isAuthenticated(); // Chỉ admin upload
     }
   }
 }

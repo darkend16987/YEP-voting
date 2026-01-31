@@ -94,8 +94,8 @@ export const AWARDS = [
   },
 ];
 
-// Tổng số user dự kiến
-export const TOTAL_EXPECTED_USERS = 280;
+// Tổng số user dự kiến (có thể cấu hình qua env)
+export const TOTAL_EXPECTED_USERS = parseInt(import.meta.env.VITE_TOTAL_EXPECTED_USERS) || 280;
 
 // Cấu hình validation
 export const VOTING_RULES = {
@@ -103,6 +103,12 @@ export const VOTING_RULES = {
   canChangeVote: false, // Không được sửa vote
 };
 
-// Admin configuration
-export const ADMIN_EMAIL = 'hoangnam.mng@gmail.com';
-export const SECURITY_CODE = '040317';
+// Admin configuration - Đọc từ environment variables để bảo mật
+// QUAN TRỌNG: Không hardcode credentials trong code!
+export const ADMIN_EMAIL = import.meta.env.VITE_ADMIN_EMAIL || '';
+export const SECURITY_CODE = import.meta.env.VITE_SECURITY_CODE || '';
+
+// Cảnh báo nếu chưa cấu hình
+if (!ADMIN_EMAIL || !SECURITY_CODE) {
+  console.warn('[Config] ⚠️ ADMIN_EMAIL hoặc SECURITY_CODE chưa được cấu hình trong .env');
+}
