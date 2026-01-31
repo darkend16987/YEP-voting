@@ -1,12 +1,6 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
-    // Admin email - lấy từ env thông qua custom claims hoặc hardcode tạm
-    // LƯU Ý: Để bảo mật tuyệt đối, nên dùng Cloud Functions thay vì client-side
-    function isAdmin() {
-      return request.auth != null && request.auth.token.email == 'hoangnam.mng@gmail.com';
-    }
-
     // Kiểm tra user đã đăng nhập
     function isAuthenticated() {
       return request.auth != null;
