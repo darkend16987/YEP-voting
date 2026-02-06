@@ -132,8 +132,9 @@ export const VOTE_MULTIPLIERS = {
     multiplier: 10,
     label: 'Hội đồng Quản trị',
     emails: [
-      // Thêm email HĐQT vào đây (viết thường)
-      // Ví dụ: 'chairman@company.com',
+      'xuanhoa.inno@gmail.com',
+      'leader4@innojsc.com',
+      'leader@innojsc.com',
     ]
   },
   // Ban Giám đốc - Hệ số x5
@@ -141,9 +142,16 @@ export const VOTE_MULTIPLIERS = {
     multiplier: 5,
     label: 'Ban Giám đốc',
     emails: [
-      // Thêm email BGĐ vào đây (viết thường)
-      // Ví dụ: 'ceo@company.com',
-      // 'cto@company.com',
+      'dongdv2005@gmail.com',
+      'mbsan06@gmail.com',
+      'quangbv.vae@gmail.com',
+      'giangchau16@gmail.com',
+      'dotatkien@gmail.com',
+      'phamquochuy710@gmail.com',
+      'dohoanganh2803@gmail.com',
+      'phukhanh103@gmail.com',
+      'levantai1993@gmail.com',
+      'dinhkhuong2906@gmail.com',
     ]
   }
 };

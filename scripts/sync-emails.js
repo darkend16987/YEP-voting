@@ -58,7 +58,14 @@ function extractEmailsFromCSV(csvContent) {
   const emails = [];
 
   const firstLine = lines[0]?.toLowerCase().trim();
-  const hasHeader = firstLine?.includes('email') || firstLine?.includes('mail');
+
+  // Check if first line contains an email address (if so, it's data, not header)
+  const firstLineParts = firstLine ? firstLine.split(/[,\t]/) : [];
+  const firstLineHasEmail = firstLineParts.some(part =>
+    /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(part.trim().replace(/['"]/g, ''))
+  );
+
+  const hasHeader = !firstLineHasEmail && (firstLine?.includes('email') || firstLine?.includes('mail'));
   const startIndex = hasHeader ? 1 : 0;
 
   for (let i = startIndex; i < lines.length; i++) {

@@ -2,26 +2,26 @@
  * DANH SÁCH EMAIL ĐƯỢC PHÉP ĐĂNG NHẬP
  *
  * File này được tạo tự động từ CSV
- * Tổng số email: 276
- * Thời gian tạo: 13:36:55 29/1/2026
+ * Tổng số email: 284
+ * Thời gian tạo: 11:39:17 6/2/2026
  *
  * Để cập nhật:
  * 1. Chỉnh sửa file scripts/mail_list.csv
- * 2. Chạy: node scripts/convert-csv.js
+ * 2. Chạy: node scripts/sync-emails.js
  */
 
 export const ALLOWED_EMAILS = [
-  "xuanhoa.inno@gmai.com",
-  "leader5@innojsc.com",
+  "xuanhoa.inno@gmail.com",
+  "dongdv2005@gmail.com",
   "leader4@innojsc.com",
   "leader@innojsc.com",
   "mbsan06@gmail.com",
-  "fd@innojsc.com",
+  "minhphuong.nt89@gmail.com",
   "hoangnam.mng@gmail.com",
   "hongminhvncc166@gmail.com",
   "buithivan020294@gmail.com",
   "acd@innojsc.com",
-  "leader13@innojsc.com",
+  "quangbv.vae@gmail.com",
   "giangchau16@gmail.com",
   "duongtoan.kts@gmail.com",
   "ductran9789@gmail.com",
@@ -130,7 +130,6 @@ export const ALLOWED_EMAILS = [
   "viet59hk2xd@gmail.com",
   "leducnamkute@gmail.com",
   "ketoan2.center@gmail.com",
-  "contact.furhome@gmail.com",
   "tongminh97@gmail.com",
   "nghiemthuhoai@gmail.com",
   "daoleduc09101990@gmail.com",
@@ -147,7 +146,7 @@ export const ALLOWED_EMAILS = [
   "nphlhalinh@gmail.com",
   "huypn29@gmail.com",
   "minhdangkxd@gmail.com",
-  "viethai196@gmail.com",
+  "viethai1969@gmail.com",
   "tothuydung1012@gmail.com",
   "huuthi37@gmail.com",
   "nguyenbinh436@gmail.com",
@@ -183,7 +182,7 @@ export const ALLOWED_EMAILS = [
   "maitu.211099@gmail.com",
   "minhhung310396@gmail.com",
   "caominhngocquyen@gmail.com",
-  "lanh.trangeng@gmail.com",
+  "lanh.traneng@gmail.com",
   "dangkhaluan@gmail.com",
   "bac699170@gmail.com",
   "nghoangquan203@gmail.com",
@@ -206,7 +205,7 @@ export const ALLOWED_EMAILS = [
   "hoangthingocha3007@gmail.com",
   "datnq1007@gmail.com",
   "phanhongminhthuy99@gmail.com",
-  "inno.nguyentridung@gmail.com",
+  "tridung0207@gmail.com",
   "hungtran38001@gmail.com",
   "kshoanganh.hau@gmail.com",
   "icefrogdota19999@gmail.com",
@@ -287,6 +286,15 @@ export const ALLOWED_EMAILS = [
   "141121quynh@gmail.com",
   "tanghaidang01042001@gmail.com",
   "anhvietnguyen.1903@gmail.com",
+  "hieuboy65@gmail.com",
+  "kts.duyvu.98@gmail.com",
+  "tungpham.arch@gmail.com",
+  "tranthiquynh5794@gmail.com",
+  "thutrangvtarc@gmail.com",
+  "haidang191194@gmail.com",
+  "phamluong102@gmail.com",
+  "tuannk.ifi@gmail.com",
+  "dieulinhle27@gmail.com",
 ];
 
 // Cho phép tất cả domain (chỉ dùng khi test)
