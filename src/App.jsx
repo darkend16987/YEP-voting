@@ -10,25 +10,25 @@ import { Loader2, AlertCircle, RefreshCw } from 'lucide-react';
 
 // Loading Screen Component với message tùy chỉnh
 const LoadingScreen = ({ message = 'Đang tải...' }) => (
-  <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 flex items-center justify-center">
+  <div className="min-h-screen bg-gradient-to-br from-secondary-200 via-secondary-100 to-primary-100 flex items-center justify-center">
     <div className="text-center">
-      <Loader2 size={40} className="text-blue-500 animate-spin mx-auto mb-4" />
-      <p className="text-slate-400">{message}</p>
+      <Loader2 size={40} className="text-primary-500 animate-spin mx-auto mb-4" />
+      <p className="text-slate-500">{message}</p>
     </div>
   </div>
 );
 
 // Error Screen Component
 const ErrorScreen = ({ message, onRetry }) => (
-  <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 flex items-center justify-center p-4">
-    <div className="bg-red-500/10 border border-red-500/30 rounded-2xl p-6 max-w-md text-center">
-      <AlertCircle size={48} className="text-red-400 mx-auto mb-4" />
-      <h2 className="text-xl font-bold text-red-400 mb-2">Có lỗi xảy ra</h2>
-      <p className="text-slate-400 mb-4">{message}</p>
+  <div className="min-h-screen bg-gradient-to-br from-secondary-200 via-secondary-100 to-primary-100 flex items-center justify-center p-4">
+    <div className="bg-red-50 border border-red-200 rounded-2xl p-6 max-w-md text-center">
+      <AlertCircle size={48} className="text-red-500 mx-auto mb-4" />
+      <h2 className="text-xl font-bold text-red-600 mb-2">Có lỗi xảy ra</h2>
+      <p className="text-slate-500 mb-4">{message}</p>
       {onRetry && (
         <button
           onClick={onRetry}
-          className="bg-slate-800 hover:bg-slate-700 text-white px-4 py-2 rounded-xl transition-colors flex items-center gap-2 mx-auto"
+          className="bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 px-4 py-2 rounded-xl transition-colors flex items-center gap-2 mx-auto shadow-sm"
         >
           <RefreshCw size={16} />
           Thử lại
