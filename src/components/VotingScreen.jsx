@@ -31,9 +31,9 @@ const AwardIcon = ({ id, size = 24 }) => {
 
 // Card hiển thị khi voting đã bị khóa
 const VotingLockedCard = ({ user, onAdminClick }) => (
-  <div className="min-h-screen bg-gradient-to-br from-secondary-50 via-white to-secondary-100 text-slate-800 p-6 flex flex-col items-center justify-center">
+  <div className="min-h-screen text-slate-800 p-6 flex flex-col items-center justify-center">
     <div className="w-full max-w-md">
-      <div className="bg-white/60 border border-secondary-200 p-8 rounded-3xl text-center backdrop-blur-xl shadow-xl shadow-secondary-200/20">
+      <div className="bg-white/90 border border-secondary-200 p-8 rounded-3xl text-center backdrop-blur-xl shadow-xl shadow-secondary-200/20">
         <div className="w-20 h-20 bg-gradient-to-br from-amber-400 to-orange-500 rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg shadow-amber-500/20">
           <Lock size={40} className="text-white" />
         </div>
@@ -82,7 +82,7 @@ const VotingLockedCard = ({ user, onAdminClick }) => (
 
 // Card hiển thị thông tin đã vote xong
 const VotedSuccessCard = ({ user, onAdminClick }) => (
-  <div className="min-h-screen bg-gradient-to-br from-secondary-50 via-white to-secondary-100 flex flex-col items-center justify-center p-6 relative overflow-hidden">
+  <div className="min-h-screen flex flex-col items-center justify-center p-6 relative overflow-hidden">
     {/* Background elements */}
     <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
       <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-secondary-200/30 rounded-full blur-[100px]" />
@@ -150,13 +150,13 @@ const VotedSuccessCard = ({ user, onAdminClick }) => (
 
 // Card xác nhận vote
 const ConfirmationScreen = ({ selections, onBack, onSubmit, submitting }) => (
-  <div className="min-h-screen bg-gradient-to-br from-secondary-50 via-white to-secondary-100 p-4 flex flex-col items-center justify-center relative">
+  <div className="min-h-screen p-4 flex flex-col items-center justify-center relative">
     <div className="w-full max-w-lg relative z-10 animate-fade-in">
       <div className="glass-card overflow-hidden shadow-2xl shadow-secondary-200/30">
         {/* Header */}
         <div className="bg-gradient-to-r from-amber-50 to-orange-50 p-6 border-b border-amber-100">
           <div className="flex items-center gap-4">
-            <div className="w-14 h-14 bg-secondary-50 rounded-2xl flex items-center justify-center border border-secondary-200 shadow-sm">
+            <div className="w-14 h-14 bg-white rounded-2xl flex items-center justify-center border border-amber-200 shadow-sm">
               <AlertCircle className="text-amber-500" size={28} />
             </div>
             <div>
@@ -218,7 +218,7 @@ const ConfirmationScreen = ({ selections, onBack, onSubmit, submitting }) => (
           <button
             onClick={onBack}
             disabled={submitting}
-            className="flex-1 py-4 rounded-xl bg-secondary-50 border border-secondary-200 text-slate-600 hover:bg-secondary-100 font-bold shadow-sm transition-colors flex items-center justify-center gap-2 disabled:opacity-50"
+            className="flex-1 py-4 rounded-xl bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 font-bold shadow-sm transition-colors flex items-center justify-center gap-2 disabled:opacity-50"
           >
             <ArrowLeft size={20} />
             Quay lại
@@ -265,7 +265,7 @@ const VideoCard = ({ video, selectedAward, onSelectAward, validation }) => {
             ? `${award.bgColor} ${award.borderColor} ${award.textColor} bg-opacity-100 shadow-lg scale-[1.05] ring-2 ring-violet-500/30`
             : isDisabled
               ? 'bg-slate-100 border-slate-200 text-slate-400 cursor-not-allowed opacity-60'
-              : `bg-secondary-50/50 border-secondary-100 text-slate-400 hover:bg-secondary-100 hover:text-slate-600 hover:border-secondary-200 hover:scale-[1.02] shadow-sm`
+              : `bg-white border-slate-100 text-slate-400 hover:bg-slate-50 hover:text-slate-600 hover:border-secondary-200 hover:scale-[1.02] shadow-sm`
           }
         `}
       >
@@ -285,7 +285,7 @@ const VideoCard = ({ video, selectedAward, onSelectAward, validation }) => {
   };
 
   return (
-    <div className={`glass-card relative overflow-hidden transition-all duration-500 hover:shadow-2xl hover:shadow-secondary-200/40 group border border-secondary-100 ${selectedAward !== 'none' ? 'ring-2 ring-secondary-400/50 shadow-xl shadow-secondary-200/50 bg-secondary-50/30' : ''
+    <div className={`glass-card relative overflow-hidden transition-all duration-500 hover:shadow-2xl hover:shadow-secondary-200/40 group ${selectedAward !== 'none' ? 'ring-2 ring-secondary-400/50 shadow-xl shadow-secondary-200/50' : ''
       }`}>
       {/* Background Gradient Accent */}
       <div className={`absolute top-0 left-0 w-1.5 h-full bg-gradient-to-b ${video.gradientFrom} ${video.gradientTo}`} />
@@ -296,7 +296,7 @@ const VideoCard = ({ video, selectedAward, onSelectAward, validation }) => {
         <div className="flex items-start justify-between mb-6">
           <div>
             <div className="flex items-center gap-2 mb-1">
-              <span className={`text-[10px] font-bold uppercase tracking-widest py-1 px-2 rounded-md bg-secondary-50 border border-secondary-100 shadow-sm ${video.textColor}`}>
+              <span className={`text-[10px] font-bold uppercase tracking-widest py-1 px-2 rounded-md bg-white border border-slate-100 shadow-sm ${video.textColor}`}>
                 {video.team}
               </span>
               {selectedAward && selectedAward !== 'none' && (
@@ -438,7 +438,7 @@ const VotingScreen = ({ user, existingVote, onAdminClick }) => {
   const progress = (awardedCount / VIDEOS.length) * 100;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-secondary-50 via-white to-secondary-100 text-slate-800 pb-32">
+    <div className="min-h-screen text-slate-800 pb-32">
       {/* Background decoration */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-secondary-200/40 rounded-full blur-[120px]" />
@@ -446,7 +446,7 @@ const VotingScreen = ({ user, existingVote, onAdminClick }) => {
       </div>
 
       {/* Header */}
-      <div className="sticky top-0 z-30 bg-secondary-50/90 backdrop-blur-xl border-b border-secondary-100 shadow-sm">
+      <div className="sticky top-0 z-30 bg-white/90 backdrop-blur-xl border-b border-secondary-100 shadow-sm">
         <div className="max-w-2xl mx-auto px-4 py-3 flex justify-between items-center">
           <div className="flex items-center gap-3">
             <img src={logoPlaceholder} alt="Logo" className="h-8 object-contain" />
@@ -533,7 +533,7 @@ const VotingScreen = ({ user, existingVote, onAdminClick }) => {
         {/* Gradient fade */}
         <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-secondary-50 to-transparent pointer-events-none" />
 
-        <div className="relative bg-secondary-50/95 backdrop-blur-xl border-t border-secondary-200 safe-area-bottom shadow-2xl">
+        <div className="relative bg-white/95 backdrop-blur-xl border-t border-secondary-200 safe-area-bottom shadow-2xl">
           <div className="max-w-2xl mx-auto px-4 py-4 flex items-center gap-4">
             <div className="flex-1">
               {validation.errors.length > 0 ? (
