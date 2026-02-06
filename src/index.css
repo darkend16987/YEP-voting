@@ -12,7 +12,7 @@
   }
 
   body {
-    @apply bg-gradient-to-br from-secondary-100 via-secondary-50 to-primary-100 text-slate-800 font-sans antialiased selection:bg-primary-500/30 selection:text-primary-700;
+    @apply bg-gradient-to-br from-secondary-200 via-secondary-100 to-primary-100 text-slate-800 font-sans antialiased selection:bg-primary-500/30 selection:text-primary-700;
   }
 
   h1,

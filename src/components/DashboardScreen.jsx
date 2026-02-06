@@ -23,7 +23,8 @@ import {
   Sparkles,
   PartyPopper,
   Trophy,
-  Activity
+  Activity,
+  Play
 } from 'lucide-react';
 
 // Animated number component
@@ -525,6 +526,7 @@ const DashboardScreen = ({ onExit }) => {
   // Admin dialogs
   const [showResetDialog, setShowResetDialog] = useState(false);
   const [showEndVoteDialog, setShowEndVoteDialog] = useState(false);
+  const [showRestartDialog, setShowRestartDialog] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
 
   // Listen to voting status
@@ -640,6 +642,22 @@ const DashboardScreen = ({ onExit }) => {
     }
   };
 
+  // Handle Restart Voting (just unlock, keep votes)
+  const handleRestartVoting = async () => {
+    setIsProcessing(true);
+    try {
+      const statusRef = doc(db, 'artifacts', activeAppId, 'config', 'voting_status');
+      await setDoc(statusRef, { isLocked: false });
+      setShowRestartDialog(false);
+      alert('Đã mở lại bình chọn thành công!');
+    } catch (error) {
+      console.error('Error restarting voting:', error);
+      alert('Lỗi: ' + error.message);
+    } finally {
+      setIsProcessing(false);
+    }
+  };
+
   const maxScore = scores.length > 0 ? Math.max(...scores.map(s => s.score)) : 1;
   const votingProgress = (totalVotes / TOTAL_EXPECTED_USERS) * 100;
 
@@ -683,6 +701,13 @@ const DashboardScreen = ({ onExit }) => {
         {/* Admin controls for locked state */}
         <div className="fixed bottom-6 right-6 flex gap-3">
           <button
+            onClick={() => setShowRestartDialog(true)}
+            className="bg-green-500/20 hover:bg-green-500/30 text-green-400 px-4 py-2 rounded-xl text-sm font-medium flex items-center gap-2 border border-green-500/30 transition-colors"
+          >
+            <Play size={16} />
+            Unlock Vote
+          </button>
+          <button
             onClick={() => setShowResetDialog(true)}
             className="bg-red-500/20 hover:bg-red-500/30 text-red-400 px-4 py-2 rounded-xl text-sm font-medium flex items-center gap-2 border border-red-500/30 transition-colors"
           >
@@ -700,6 +725,16 @@ const DashboardScreen = ({ onExit }) => {
         </div>
 
         <AnimatePresence>
+          {showRestartDialog && (
+            <SecurityDialog
+              isOpen={showRestartDialog}
+              onClose={() => setShowRestartDialog(false)}
+              onConfirm={handleRestartVoting}
+              title="Unlock Vote"
+              description="Mở lại voting, cho phép user tiếp tục vote (giữ nguyên phiếu đã bầu)"
+              isLoading={isProcessing}
+            />
+          )}
           {showResetDialog && (
             <SecurityDialog
               isOpen={showResetDialog}
