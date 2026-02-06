@@ -61,7 +61,7 @@ const VotingLockedCard = ({ user }) => (
 );
 
 // Card hiển thị thông tin đã vote xong
-const VotedSuccessCard = ({ user }) => (
+const VotedSuccessCard = ({ user, onViewDashboard }) => (
   <div className="min-h-screen bg-dark-bg flex flex-col items-center justify-center p-6 relative overflow-hidden">
     {/* Background elements */}
     <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
@@ -95,6 +95,17 @@ const VotedSuccessCard = ({ user }) => (
           Kết quả cuối cùng sẽ được công bố tại <br />
           <span className="text-primary-400 font-semibold">Year End Party 2025</span>
         </p>
+
+        {/* View Dashboard Button */}
+        {onViewDashboard && (
+          <button
+            onClick={onViewDashboard}
+            className="w-full bg-gradient-to-r from-blue-500 to-indigo-500 text-white font-bold py-3 px-6 rounded-xl hover:opacity-90 transition-all flex items-center justify-center gap-2 mb-4"
+          >
+            <Trophy size={18} />
+            Xem bảng xếp hạng Live
+          </button>
+        )}
 
         <button
           onClick={() => signOut(auth)}
@@ -287,7 +298,7 @@ const VideoCard = ({ video, selectedAward, onSelectAward, validation }) => {
 };
 
 // Main VotingScreen Component
-const VotingScreen = ({ user, existingVote }) => {
+const VotingScreen = ({ user, existingVote, onViewDashboard }) => {
   const [selections, setSelections] = useState({});
   const [submitting, setSubmitting] = useState(false);
   const [confirmStep, setConfirmStep] = useState(false);
@@ -365,7 +376,7 @@ const VotingScreen = ({ user, existingVote }) => {
   }
 
   if (existingVote) {
-    return <VotedSuccessCard user={user} />;
+    return <VotedSuccessCard user={user} onViewDashboard={onViewDashboard} />;
   }
 
   if (confirmStep) {

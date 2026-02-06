@@ -233,15 +233,24 @@ const SecurityDialog = ({ isOpen, onClose, onConfirm, title, description, isLoad
   const [code, setCode] = useState('');
   const [error, setError] = useState('');
   const currentUserEmail = auth.currentUser?.email;
+  const isLoggedIn = !!currentUserEmail;
   const isAdmin = currentUserEmail === ADMIN_EMAIL;
 
   const handleConfirm = () => {
+    // Admin auto-bypass
     if (isAdmin) {
       onConfirm();
       return;
     }
 
+    // Check security code
     if (code === SECURITY_CODE) {
+      // User nhập đúng code nhưng chưa đăng nhập → cần đăng nhập với admin account
+      if (!isLoggedIn) {
+        setError('Mã đúng! Nhưng bạn cần đăng nhập với tài khoản Admin để thực hiện thao tác này.');
+        return;
+      }
+      // User đã đăng nhập và nhập đúng code → cho phép
       onConfirm();
     } else {
       setError('Mã bảo mật không đúng!');
@@ -287,6 +296,13 @@ const SecurityDialog = ({ isOpen, onClose, onConfirm, title, description, isLoad
           </div>
         ) : (
           <div className="mb-4">
+            {!isLoggedIn && (
+              <div className="bg-amber-500/10 border border-amber-500/30 rounded-xl p-3 mb-3">
+                <p className="text-sm text-amber-400">
+                  ⚠️ Bạn chưa đăng nhập. Cần đăng nhập với tài khoản Admin để thực hiện thao tác này.
+                </p>
+              </div>
+            )}
             <label className="text-sm text-slate-400 mb-2 block">
               Nhập mã bảo mật để tiếp tục:
             </label>

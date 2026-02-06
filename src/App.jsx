@@ -111,5 +111,5 @@ export default function App() {
   }
 
   // Voting screen
-  return <VotingScreen user={user} existingVote={hasVoted} />;
+  return <VotingScreen user={user} existingVote={hasVoted} onViewDashboard={toggleAdmin} />;
 }
