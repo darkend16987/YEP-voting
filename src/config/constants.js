@@ -29,17 +29,7 @@ export const VIDEOS = [
     gradientTo: 'to-violet-600',
     textColor: 'text-violet-400',
     borderColor: 'border-violet-500/30'
-  },
-  {
-    id: 'v4',
-    name: 'Người Dẫn Đường',
-    team: 'Team BOD',
-    color: 'bg-amber-500',
-    gradientFrom: 'from-amber-500',
-    gradientTo: 'to-amber-600',
-    textColor: 'text-amber-400',
-    borderColor: 'border-amber-500/30'
-  },
+  }
 ];
 
 // Cơ cấu giải thưởng và Giới hạn
@@ -73,24 +63,24 @@ export const AWARDS = [
     label: 'Giải Nhì',
     shortLabel: 'Nhì',
     point: 3,
-    limit: 2,
+    limit: 1,
     bgColor: 'bg-slate-300/10',
     textColor: 'text-slate-300',
     selectedBg: 'bg-gradient-to-r from-slate-400 to-slate-500',
     borderColor: 'border-slate-400/50',
-    description: '3 điểm - Tối đa 2 giải'
+    description: '3 điểm - Tối đa 1 giải'
   },
   {
     id: 'third',
     label: 'Giải Ba',
     shortLabel: 'Ba',
     point: 2,
-    limit: 3,
+    limit: 1,
     bgColor: 'bg-amber-600/10',
     textColor: 'text-amber-600',
     selectedBg: 'bg-gradient-to-r from-amber-600 to-amber-700',
     borderColor: 'border-amber-600/50',
-    description: '2 điểm - Tối đa 3 giải'
+    description: '2 điểm - Tối đa 1 giải'
   },
 ];
 

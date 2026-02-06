@@ -507,7 +507,7 @@ const VotingScreen = ({ user, existingVote, onAdminClick }) => {
         <div className="max-w-2xl mx-auto px-4 py-3 text-center">
           <p className="text-xs md:text-sm text-primary-200 font-medium">
             <span className="font-bold text-white uppercase tracking-wider mr-2">Luật chơi:</span>
-            Tối đa 1 giải Nhất • 2 giải Nhì • 3 giải Ba
+            Tối đa 1 giải Nhất • 1 giải Nhì • 1 giải Ba
           </p>
         </div>
       </div>
