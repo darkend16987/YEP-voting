@@ -751,7 +751,7 @@ const DashboardScreen = ({ onExit }) => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-secondary-950 via-slate-900 to-primary-950 text-white relative overflow-hidden font-sans">
+    <div className="min-h-screen bg-gradient-to-br from-secondary-400 via-secondary-200 to-primary-200 text-slate-800 relative overflow-hidden font-sans">
       {/* Background decoration */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-secondary-200/20 rounded-full blur-[150px] animate-blob" />
@@ -759,7 +759,7 @@ const DashboardScreen = ({ onExit }) => {
       </div>
 
       {/* Header - Responsive */}
-      <div className="sticky top-0 z-20 bg-slate-950/80 backdrop-blur-xl border-b border-white/5 safe-area-top">
+      <div className="sticky top-0 z-20 bg-slate-950/80 backdrop-blur-xl border-b border-white/5 safe-area-top text-white">
         <div className="max-w-7xl mx-auto px-3 sm:px-6 py-3 sm:py-4">
           <div className="flex justify-between items-center gap-2 sm:gap-4">
             {/* Left: Logo & Title */}
