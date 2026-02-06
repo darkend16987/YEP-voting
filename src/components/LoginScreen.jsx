@@ -46,12 +46,12 @@ const LoginScreen = ({ error, onAdminClick }) => {
   const displayError = error || loginError;
 
   return (
-    <div className="min-h-screen bg-dark-bg flex flex-col items-center justify-center p-4 text-white relative overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-br from-sky-50 via-white to-sky-100 flex flex-col items-center justify-center p-4 text-slate-800 relative overflow-hidden">
       {/* Background decoration */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute -top-40 -right-40 w-96 h-96 bg-primary-500/20 rounded-full blur-[100px] animate-blob" />
-        <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-secondary-500/20 rounded-full blur-[100px] animate-blob animation-delay-2000" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-primary-900/10 rounded-full blur-[120px]" />
+        <div className="absolute -top-40 -right-40 w-96 h-96 bg-sky-200/50 rounded-full blur-[100px] animate-blob" />
+        <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-indigo-200/50 rounded-full blur-[100px] animate-blob animation-delay-2000" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-sky-100/40 rounded-full blur-[120px]" />
       </div>
 
       {/* Main card */}
@@ -61,54 +61,54 @@ const LoginScreen = ({ error, onAdminClick }) => {
           <img
             src={logoPlaceholder}
             alt="Company Logo"
-            className="h-16 object-contain opacity-90 hover:opacity-100 transition-opacity drop-shadow-[0_0_15px_rgba(255,255,255,0.2)]"
+            className="h-16 object-contain drop-shadow-md"
           />
         </div>
 
         <div className="glass-card p-8 text-center relative overflow-hidden group">
           {/* Shine effect */}
-          <div className="absolute inset-0 bg-gradient-to-tr from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
+          <div className="absolute inset-0 bg-gradient-to-tr from-white/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
 
           {/* Contest Icon */}
           <div className="relative mx-auto mb-8 mt-2">
-            <div className="w-24 h-24 bg-gradient-to-br from-primary-500 to-secondary-500 rounded-3xl flex items-center justify-center mx-auto shadow-2xl shadow-primary-500/30 transform transition-all duration-300 hover:scale-105 hover:rotate-3 group-hover:shadow-primary-500/40">
+            <div className="w-24 h-24 bg-gradient-to-br from-primary-400 to-indigo-500 rounded-3xl flex items-center justify-center mx-auto shadow-2xl shadow-primary-500/20 transform transition-all duration-300 hover:scale-105 hover:rotate-3">
               <Clapperboard size={48} className="text-white drop-shadow-md" />
             </div>
           </div>
 
           {/* Title */}
-          <h1 className="text-3xl font-display font-bold mb-2 bg-gradient-to-r from-primary-200 via-white to-primary-200 bg-clip-text text-transparent drop-shadow-sm">
+          <h1 className="text-3xl font-display font-bold mb-2 bg-gradient-to-r from-primary-600 via-indigo-600 to-primary-600 bg-clip-text text-transparent drop-shadow-sm">
             YEP CLIP CONTEST
           </h1>
-          <div className="inline-block px-4 py-1 rounded-full bg-white/5 border border-white/10 backdrop-blur-md mb-6">
-            <p className="text-lg font-bold tracking-[0.2em] text-primary-300">2025</p>
+          <div className="inline-block px-4 py-1 rounded-full bg-primary-50 border border-primary-100 mb-6">
+            <p className="text-lg font-bold tracking-[0.2em] text-primary-600">2025</p>
           </div>
 
-          <p className="text-slate-400 mb-8 font-light">Bình chọn Video Clip xuất sắc nhất</p>
+          <p className="text-slate-500 mb-8 font-medium">Bình chọn Video Clip xuất sắc nhất</p>
 
           {/* Features */}
           <div className="grid grid-cols-3 gap-4 mb-8">
-            <div className="bg-white/5 rounded-xl p-3 border border-white/5">
-              <Video size={20} className="text-primary-400 mx-auto mb-2" />
-              <span className="text-xs text-slate-400 block font-medium">3 Videos</span>
+            <div className="bg-white/50 rounded-xl p-3 border border-sky-100 shadow-sm">
+              <Video size={20} className="text-primary-500 mx-auto mb-2" />
+              <span className="text-xs text-slate-600 block font-semibold">3 Videos</span>
             </div>
-            <div className="bg-white/5 rounded-xl p-3 border border-white/5">
-              <Users size={20} className="text-secondary-400 mx-auto mb-2" />
-              <span className="text-xs text-slate-400 block font-medium">280+ Voters</span>
+            <div className="bg-white/50 rounded-xl p-3 border border-sky-100 shadow-sm">
+              <Users size={20} className="text-indigo-500 mx-auto mb-2" />
+              <span className="text-xs text-slate-600 block font-semibold">280+ Voters</span>
             </div>
-            <div className="bg-white/5 rounded-xl p-3 border border-white/5">
-              <Star size={20} className="text-yellow-400 mx-auto mb-2" />
-              <span className="text-xs text-slate-400 block font-medium">Live Race</span>
+            <div className="bg-white/50 rounded-xl p-3 border border-sky-100 shadow-sm">
+              <Star size={20} className="text-amber-500 mx-auto mb-2" />
+              <span className="text-xs text-slate-600 block font-semibold">Live Race</span>
             </div>
           </div>
 
           {/* Error message */}
           {displayError && (
-            <div className="bg-red-500/10 border border-red-500/20 text-red-200 p-4 rounded-xl mb-6 text-sm flex items-start gap-3 text-left animate-fade-in backdrop-blur-md">
-              <AlertCircle size={20} className="shrink-0 mt-0.5 text-red-400" />
+            <div className="bg-red-50 border border-red-100 text-red-600 p-4 rounded-xl mb-6 text-sm flex items-start gap-3 text-left animate-fade-in">
+              <AlertCircle size={20} className="shrink-0 mt-0.5 text-red-500" />
               <div>
-                <p className="font-semibold text-red-400">Đăng nhập không thành công</p>
-                <p className="text-red-300/80 text-xs mt-1 leading-relaxed">{displayError}</p>
+                <p className="font-bold text-red-700">Đăng nhập không thành công</p>
+                <p className="text-red-600/90 text-xs mt-1 leading-relaxed">{displayError}</p>
               </div>
             </div>
           )}
@@ -117,11 +117,11 @@ const LoginScreen = ({ error, onAdminClick }) => {
           <button
             onClick={handleLogin}
             disabled={isLoading}
-            className="w-full bg-white text-slate-900 font-bold py-4 px-6 rounded-xl hover:bg-white/90 transition-all flex items-center justify-center gap-3 shadow-lg hover:shadow-xl hover:shadow-primary-500/10 hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.99] disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:translate-y-0 disabled:hover:shadow-none mb-4 group/btn"
+            className="w-full bg-slate-900 text-white font-bold py-4 px-6 rounded-xl hover:bg-slate-800 transition-all flex items-center justify-center gap-3 shadow-lg hover:shadow-xl hover:shadow-slate-500/20 hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.99] disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:translate-y-0 disabled:hover:shadow-none mb-4 group/btn"
           >
             {isLoading ? (
               <>
-                <div className="w-5 h-5 border-2 border-slate-300 border-t-slate-900 rounded-full animate-spin" />
+                <div className="w-5 h-5 border-2 border-slate-400 border-t-white rounded-full animate-spin" />
                 <span>Đang kết nối...</span>
               </>
             ) : (
@@ -136,7 +136,7 @@ const LoginScreen = ({ error, onAdminClick }) => {
             )}
           </button>
 
-          <p className="text-xs text-slate-500 font-medium">
+          <p className="text-xs text-slate-400 font-medium">
             Chỉ dành cho email nội bộ công ty
           </p>
         </div>
@@ -145,7 +145,7 @@ const LoginScreen = ({ error, onAdminClick }) => {
         <div className="mt-8 text-center">
           <button
             onClick={onAdminClick}
-            className="text-slate-600 hover:text-primary-400 text-xs transition-colors flex items-center justify-center gap-2 mx-auto"
+            className="text-slate-400 hover:text-primary-600 text-xs transition-colors flex items-center justify-center gap-2 mx-auto font-medium"
           >
             <LogIn size={12} />
             <span>Admin Dashboard</span>

@@ -7,8 +7,8 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['Inter', 'sans-serif'],
-        display: ['Outfit', 'sans-serif'],
+        sans: ['Open Sans', 'sans-serif'],
+        display: ['Montserrat', 'sans-serif'],
       },
       colors: {
         primary: {
@@ -44,9 +44,9 @@ export default {
           300: 'rgba(255, 255, 255, 0.3)',
         },
         dark: {
-          bg: '#020617',     // Slate 950
-          card: '#0f172a',   // Slate 900
-          surface: '#1e293b', // Slate 800
+          bg: '#f0f9ff',     // Sky 50 (Light Theme Background)
+          card: '#ffffff',   // White (Light Theme Card)
+          surface: '#e0f2fe', // Sky 100 (Light Theme Surface)
         }
       },
       animation: {
