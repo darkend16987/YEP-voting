@@ -2,8 +2,8 @@
 export const VIDEOS = [
   {
     id: 'v1',
-    name: 'Hành Trình Vươn Xa',
-    team: 'Team Marketing',
+    name: 'Xuân này, ta lớn hơn',
+    team: 'Liên quân Zone2',
     color: 'bg-blue-500',
     gradientFrom: 'from-blue-500',
     gradientTo: 'to-blue-600',
@@ -12,8 +12,8 @@ export const VIDEOS = [
   },
   {
     id: 'v2',
-    name: 'Chuyện Công Sở',
-    team: 'Team Sale & Admin',
+    name: 'The Jump - Bứt phá',
+    team: 'Liên quân Zone 5',
     color: 'bg-emerald-500',
     gradientFrom: 'from-emerald-500',
     gradientTo: 'to-emerald-600',
@@ -22,8 +22,8 @@ export const VIDEOS = [
   },
   {
     id: 'v3',
-    name: 'The Future Is Now',
-    team: 'Team Tech & Product',
+    name: 'Thức tỉnh',
+    team: 'Liên quân Zone 6',
     color: 'bg-violet-500',
     gradientFrom: 'from-violet-500',
     gradientTo: 'to-violet-600',
