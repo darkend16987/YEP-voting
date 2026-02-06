@@ -90,11 +90,11 @@ const LoginScreen = ({ error, onAdminClick }) => {
           <div className="grid grid-cols-3 gap-4 mb-8">
             <div className="bg-white/5 rounded-xl p-3 border border-white/5">
               <Video size={20} className="text-primary-400 mx-auto mb-2" />
-              <span className="text-xs text-slate-400 block font-medium">4 Videos</span>
+              <span className="text-xs text-slate-400 block font-medium">3 Videos</span>
             </div>
             <div className="bg-white/5 rounded-xl p-3 border border-white/5">
               <Users size={20} className="text-secondary-400 mx-auto mb-2" />
-              <span className="text-xs text-slate-400 block font-medium">250+ Voters</span>
+              <span className="text-xs text-slate-400 block font-medium">280+ Voters</span>
             </div>
             <div className="bg-white/5 rounded-xl p-3 border border-white/5">
               <Star size={20} className="text-yellow-400 mx-auto mb-2" />
