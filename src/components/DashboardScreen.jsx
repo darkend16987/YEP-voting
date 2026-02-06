@@ -122,7 +122,7 @@ const ScoreBar = ({ item, index, maxScore, previousRank }) => {
         />
       )}
 
-      <div className={`relative bg-white/80 backdrop-blur-sm rounded-xl sm:rounded-2xl transition-all duration-500 ${isLeader
+      <div className={`relative bg-secondary-50/80 backdrop-blur-sm rounded-xl sm:rounded-2xl transition-all duration-500 ${isLeader
         ? 'border border-yellow-400/50 shadow-lg shadow-yellow-500/10 p-3 sm:p-6 scale-[1.01] sm:scale-[1.02]'
         : 'border border-slate-100 shadow-sm p-3 sm:p-4'
         }`}>
@@ -437,7 +437,7 @@ const FinalResultsView = ({ scores, totalVotes }) => {
             className="relative"
           >
             <div className="absolute -inset-2 bg-secondary-200/50 rounded-2xl blur-xl" />
-            <div className="relative bg-white/80 border border-slate-200 rounded-2xl p-6 text-center shadow-lg">
+            <div className="relative bg-secondary-50/80 border border-secondary-200 rounded-2xl p-6 text-center shadow-lg">
               <Medal size={48} strokeWidth={1.5} className="text-blue-400 mx-auto mb-3" />
               <div className="text-4xl mb-2">🥈</div>
               <div className="text-xs text-slate-500 uppercase tracking-widest mb-2 font-bold">Á quân</div>
@@ -460,7 +460,7 @@ const FinalResultsView = ({ scores, totalVotes }) => {
             className="relative"
           >
             <div className="absolute -inset-2 bg-amber-200/50 rounded-2xl blur-xl" />
-            <div className="relative bg-white/80 border border-amber-200 rounded-2xl p-6 text-center shadow-lg">
+            <div className="relative bg-secondary-50/80 border border-amber-200 rounded-2xl p-6 text-center shadow-lg">
               <Award size={48} strokeWidth={1.5} className="text-orange-500 mx-auto mb-3" />
               <div className="text-4xl mb-2">🥉</div>
               <div className="text-xs text-amber-600 uppercase tracking-widest mb-2 font-bold">Hạng Ba</div>
@@ -490,7 +490,7 @@ const FinalResultsView = ({ scores, totalVotes }) => {
             {scores.slice(3).map((item, idx) => (
               <div
                 key={item.id}
-                className="bg-white/60 border border-slate-200 rounded-xl p-4 flex items-center justify-between shadow-sm"
+                className="bg-secondary-50/60 border border-secondary-200 rounded-xl p-4 flex items-center justify-between shadow-sm"
               >
                 <div className="flex items-center gap-3">
                   <span className="text-slate-400 font-bold">#{idx + 4}</span>
@@ -819,7 +819,7 @@ const DashboardScreen = ({ onExit }) => {
 
       {/* Legend - Responsive */}
       <div className="max-w-7xl mx-auto px-3 sm:px-6 pb-24 sm:pb-12">
-        <div className="bg-white/80 backdrop-blur-md rounded-xl sm:rounded-2xl border border-slate-200 p-3 sm:p-6 flex flex-col md:flex-row items-center justify-between gap-4 sm:gap-6 shadow-lg">
+        <div className="bg-secondary-50/90 backdrop-blur-md rounded-xl sm:rounded-2xl border border-secondary-200 p-3 sm:p-6 flex flex-col md:flex-row items-center justify-between gap-4 sm:gap-6 shadow-lg">
           <div className="flex items-center gap-2 sm:gap-3 w-full md:w-auto">
             <div className="p-1.5 sm:p-2 bg-amber-100 rounded-lg text-amber-600">
               <Zap className="w-4 h-4 sm:w-5 sm:h-5" />

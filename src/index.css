@@ -29,7 +29,7 @@
 
   /* Modern Glass Card */
   .glass-card {
-    @apply bg-white/50 backdrop-blur-xl border border-white/40 shadow-xl shadow-secondary-200/30 rounded-2xl;
+    @apply bg-white/30 backdrop-blur-xl border border-secondary-100 shadow-xl shadow-secondary-200/20 rounded-2xl;
   }
 
   .glass-card-hover {
