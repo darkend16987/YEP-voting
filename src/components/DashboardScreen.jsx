@@ -751,7 +751,7 @@ const DashboardScreen = ({ onExit }) => {
   }
 
   return (
-    <div className="min-h-screen bg-dark-bg text-white relative overflow-hidden font-sans">
+    <div className="min-h-screen bg-gradient-to-br from-secondary-950 via-slate-900 to-primary-950 text-white relative overflow-hidden font-sans">
       {/* Background decoration */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-secondary-200/20 rounded-full blur-[150px] animate-blob" />
