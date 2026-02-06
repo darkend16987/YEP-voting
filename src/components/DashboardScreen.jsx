@@ -374,7 +374,7 @@ const FinalResultsView = ({ scores, totalVotes }) => {
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      className="min-h-screen bg-gradient-to-br from-indigo-50/50 via-white to-violet-100/50 text-slate-800 py-6 sm:py-12 px-3 sm:px-6 pb-24"
+      className="min-h-screen bg-gradient-to-br from-secondary-50 via-white to-secondary-100 text-slate-800 py-6 sm:py-12 px-3 sm:px-6 pb-24"
     >
       {/* Header - Responsive */}
       <motion.div
@@ -436,7 +436,7 @@ const FinalResultsView = ({ scores, totalVotes }) => {
             transition={{ delay: 0.8 }}
             className="relative"
           >
-            <div className="absolute -inset-2 bg-slate-200/50 rounded-2xl blur-xl" />
+            <div className="absolute -inset-2 bg-secondary-200/50 rounded-2xl blur-xl" />
             <div className="relative bg-white/80 border border-slate-200 rounded-2xl p-6 text-center shadow-lg">
               <Medal size={48} strokeWidth={1.5} className="text-blue-400 mx-auto mb-3" />
               <div className="text-4xl mb-2">🥈</div>
@@ -719,8 +719,8 @@ const DashboardScreen = ({ onExit }) => {
     <div className="min-h-screen bg-dark-bg text-white relative overflow-hidden font-sans">
       {/* Background decoration */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-primary-900/20 rounded-full blur-[150px] animate-blob" />
-        <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-secondary-900/20 rounded-full blur-[150px] animate-blob animation-delay-4000" />
+        <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-secondary-200/20 rounded-full blur-[150px] animate-blob" />
+        <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-primary-200/20 rounded-full blur-[150px] animate-blob animation-delay-4000" />
       </div>
 
       {/* Header - Responsive */}

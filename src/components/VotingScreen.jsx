@@ -31,7 +31,7 @@ const AwardIcon = ({ id, size = 24 }) => {
 
 // Card hiển thị khi voting đã bị khóa
 const VotingLockedCard = ({ user, onAdminClick }) => (
-  <div className="min-h-screen bg-gradient-to-br from-sky-50 via-white to-sky-100 text-slate-800 p-6 flex flex-col items-center justify-center">
+  <div className="min-h-screen bg-gradient-to-br from-secondary-50 via-white to-secondary-100 text-slate-800 p-6 flex flex-col items-center justify-center">
     <div className="w-full max-w-md">
       <div className="bg-white/80 border border-amber-200 p-8 rounded-3xl text-center backdrop-blur-xl shadow-xl shadow-amber-500/10">
         <div className="w-20 h-20 bg-gradient-to-br from-amber-400 to-orange-500 rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg shadow-amber-500/20">
@@ -82,10 +82,10 @@ const VotingLockedCard = ({ user, onAdminClick }) => (
 
 // Card hiển thị thông tin đã vote xong
 const VotedSuccessCard = ({ user, onAdminClick }) => (
-  <div className="min-h-screen bg-gradient-to-br from-sky-50 via-white to-sky-100 flex flex-col items-center justify-center p-6 relative overflow-hidden">
+  <div className="min-h-screen bg-gradient-to-br from-secondary-50 via-white to-secondary-100 flex flex-col items-center justify-center p-6 relative overflow-hidden">
     {/* Background elements */}
     <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
-      <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary-200/30 rounded-full blur-[100px]" />
+      <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-secondary-200/30 rounded-full blur-[100px]" />
       <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-emerald-200/30 rounded-full blur-[100px]" />
     </div>
 
@@ -150,7 +150,7 @@ const VotedSuccessCard = ({ user, onAdminClick }) => (
 
 // Card xác nhận vote
 const ConfirmationScreen = ({ selections, onBack, onSubmit, submitting }) => (
-  <div className="min-h-screen bg-gradient-to-br from-sky-50 via-white to-sky-100 p-4 flex flex-col items-center justify-center relative">
+  <div className="min-h-screen bg-gradient-to-br from-secondary-50 via-white to-secondary-100 p-4 flex flex-col items-center justify-center relative">
     <div className="w-full max-w-lg relative z-10 animate-fade-in">
       <div className="glass-card overflow-hidden bg-white shadow-2xl shadow-sky-200/50">
         {/* Header */}
@@ -442,11 +442,11 @@ const VotingScreen = ({ user, existingVote, onAdminClick }) => {
   const progress = (awardedCount / VIDEOS.length) * 100;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-50/50 via-white to-violet-100/50 text-slate-800 pb-32">
+    <div className="min-h-screen bg-gradient-to-br from-secondary-50 via-white to-secondary-100 text-slate-800 pb-32">
       {/* Background decoration */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-sky-200/40 rounded-full blur-[120px]" />
-        <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-indigo-200/40 rounded-full blur-[120px]" />
+        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-secondary-200/40 rounded-full blur-[120px]" />
+        <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-primary-200/40 rounded-full blur-[120px]" />
       </div>
 
       {/* Header */}

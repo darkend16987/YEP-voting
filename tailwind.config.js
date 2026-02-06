@@ -44,9 +44,9 @@ export default {
           300: 'rgba(255, 255, 255, 0.3)',
         },
         dark: {
-          bg: '#f0f9ff',     // Sky 50 (Light Theme Background)
+          bg: '#f5f3ff',     // Secondary 50 (Violet-Indigo Tint)
           card: '#ffffff',   // White (Light Theme Card)
-          surface: '#e0f2fe', // Sky 100 (Light Theme Surface)
+          surface: '#ede9fe', // Secondary 100 (Violet-Indigo Surface)
         }
       },
       animation: {
