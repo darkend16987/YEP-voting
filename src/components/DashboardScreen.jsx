@@ -57,15 +57,15 @@ const AnimatedNumber = ({ value, duration = 800 }) => {
   return <span>{displayValue}</span>;
 };
 
-// Rank change indicator
+// Rank change indicator - Light Theme
 const RankIndicator = ({ previousRank, currentRank }) => {
   if (previousRank === currentRank || previousRank === 0) {
-    return <Minus size={14} className="text-slate-600" />;
+    return <Minus size={14} className="text-slate-400" />;
   }
   if (currentRank < previousRank) {
     return (
       <motion.div
-        className="flex items-center text-green-400"
+        className="flex items-center text-emerald-500"
         initial={{ scale: 1.5, y: -10 }}
         animate={{ scale: 1, y: 0 }}
         transition={{ type: "spring", stiffness: 500, damping: 15 }}
@@ -77,7 +77,7 @@ const RankIndicator = ({ previousRank, currentRank }) => {
   }
   return (
     <motion.div
-      className="flex items-center text-red-400"
+      className="flex items-center text-rose-500"
       initial={{ scale: 1.5, y: 10 }}
       animate={{ scale: 1, y: 0 }}
       transition={{ type: "spring", stiffness: 500, damping: 15 }}
@@ -88,16 +88,16 @@ const RankIndicator = ({ previousRank, currentRank }) => {
   );
 };
 
-// Individual score bar with framer-motion - Responsive
+// Individual score bar with framer-motion - Responsive - Light Theme
 const ScoreBar = ({ item, index, maxScore, previousRank }) => {
   const percentage = maxScore > 0 ? (item.score / (maxScore * 1.1)) * 100 : 0;
   const isLeader = index === 0;
 
   const getRankIcon = () => {
-    if (index === 0) return <Crown className="w-6 h-6 sm:w-7 sm:h-7 text-yellow-400" />;
-    if (index === 1) return <Medal className="w-5 h-5 sm:w-6 sm:h-6 text-slate-300" />;
+    if (index === 0) return <Crown className="w-6 h-6 sm:w-7 sm:h-7 text-yellow-500" />;
+    if (index === 1) return <Medal className="w-5 h-5 sm:w-6 sm:h-6 text-slate-400" />;
     if (index === 2) return <Award className="w-5 h-5 sm:w-6 sm:h-6 text-amber-600" />;
-    return <span className="text-slate-500 font-bold text-base sm:text-lg">#{index + 1}</span>;
+    return <span className="text-slate-400 font-bold text-base sm:text-lg">#{index + 1}</span>;
   };
 
   return (
@@ -115,25 +115,25 @@ const ScoreBar = ({ item, index, maxScore, previousRank }) => {
       {/* Leader highlight glow */}
       {isLeader && (
         <motion.div
-          className="absolute -inset-1 sm:-inset-2 bg-gradient-to-r from-yellow-500/20 via-amber-500/10 to-yellow-500/20 rounded-xl sm:rounded-2xl blur-xl"
-          animate={{ opacity: [0.3, 0.6, 0.3] }}
+          className="absolute -inset-1 sm:-inset-2 bg-gradient-to-r from-yellow-200/50 via-amber-200/30 to-yellow-200/50 rounded-xl sm:rounded-2xl blur-xl"
+          animate={{ opacity: [0.5, 0.8, 0.5] }}
           transition={{ duration: 2, repeat: Infinity }}
         />
       )}
 
-      <div className={`relative bg-slate-900/50 rounded-xl sm:rounded-2xl border transition-all duration-500 ${isLeader
-          ? 'border-yellow-500/30 p-3 sm:p-6 scale-[1.01] sm:scale-[1.02]'
-          : 'border-slate-800 p-3 sm:p-4'
+      <div className={`relative bg-white/80 backdrop-blur-sm rounded-xl sm:rounded-2xl transition-all duration-500 ${isLeader
+        ? 'border border-yellow-400/50 shadow-lg shadow-yellow-500/10 p-3 sm:p-6 scale-[1.01] sm:scale-[1.02]'
+        : 'border border-slate-100 shadow-sm p-3 sm:p-4'
         }`}>
         {/* Header with name and score */}
         <div className="flex justify-between items-center mb-2 sm:mb-3 gap-2">
           <div className="flex items-center gap-2 sm:gap-4 min-w-0">
             {/* Rank icon/number */}
             <motion.div
-              className={`flex items-center justify-center rounded-lg sm:rounded-xl flex-shrink-0 ${index === 0 ? 'w-10 h-10 sm:w-14 sm:h-14 bg-gradient-to-br from-yellow-500/30 to-amber-500/20' :
-                  index === 1 ? 'w-9 h-9 sm:w-12 sm:h-12 bg-slate-400/20' :
-                    index === 2 ? 'w-9 h-9 sm:w-12 sm:h-12 bg-amber-600/20' :
-                      'w-8 h-8 sm:w-10 sm:h-10 bg-slate-800'
+              className={`flex items-center justify-center rounded-lg sm:rounded-xl flex-shrink-0 ${index === 0 ? 'w-10 h-10 sm:w-14 sm:h-14 bg-gradient-to-br from-yellow-100 to-amber-50 border border-yellow-200' :
+                index === 1 ? 'w-9 h-9 sm:w-12 sm:h-12 bg-slate-100 border border-slate-200' :
+                  index === 2 ? 'w-9 h-9 sm:w-12 sm:h-12 bg-amber-50 border border-amber-100' :
+                    'w-8 h-8 sm:w-10 sm:h-10 bg-slate-50 border border-slate-100'
                 }`}
               whileHover={{ scale: 1.1, rotate: 5 }}
               transition={{ type: "spring", stiffness: 400 }}
@@ -143,7 +143,7 @@ const ScoreBar = ({ item, index, maxScore, previousRank }) => {
 
             {/* Name and team */}
             <div className="min-w-0">
-              <h2 className={`font-bold truncate ${isLeader ? 'text-lg sm:text-2xl text-yellow-400' : 'text-base sm:text-xl text-white'
+              <h2 className={`font-bold truncate ${isLeader ? 'text-lg sm:text-2xl text-slate-800' : 'text-base sm:text-xl text-slate-700'
                 }`}>
                 {item.name}
               </h2>
@@ -159,7 +159,7 @@ const ScoreBar = ({ item, index, maxScore, previousRank }) => {
             <RankIndicator previousRank={previousRank} currentRank={index + 1} />
             <div>
               <motion.span
-                className={`font-bold font-mono ${isLeader ? 'text-2xl sm:text-4xl text-yellow-400' : 'text-xl sm:text-3xl text-white'
+                className={`font-bold font-mono ${isLeader ? 'text-2xl sm:text-4xl text-yellow-500' : 'text-xl sm:text-3xl text-slate-800'
                   }`}
                 key={item.score}
                 initial={{ scale: 1.2 }}
@@ -168,24 +168,24 @@ const ScoreBar = ({ item, index, maxScore, previousRank }) => {
               >
                 <AnimatedNumber value={item.score} />
               </motion.span>
-              <span className="text-xs sm:text-sm text-slate-500 ml-0.5 sm:ml-1">pts</span>
+              <span className="text-xs sm:text-sm text-slate-400 ml-0.5 sm:ml-1">pts</span>
             </div>
           </div>
         </div>
 
         {/* Progress bar - responsive height */}
-        <div className={`relative bg-slate-800/50 rounded-lg sm:rounded-xl overflow-hidden ${isLeader ? 'h-10 sm:h-16' : 'h-8 sm:h-12'
+        <div className={`relative bg-slate-100 rounded-lg sm:rounded-xl overflow-hidden ${isLeader ? 'h-10 sm:h-16' : 'h-8 sm:h-12'
           }`}>
           {/* Background pattern */}
-          <div className="absolute inset-0 opacity-10">
+          <div className="absolute inset-0 opacity-30">
             <div className="h-full w-full" style={{
-              backgroundImage: 'repeating-linear-gradient(90deg, transparent, transparent 20px, rgba(255,255,255,0.03) 20px, rgba(255,255,255,0.03) 40px)'
+              backgroundImage: 'repeating-linear-gradient(90deg, transparent, transparent 20px, rgba(0,0,0,0.02) 20px, rgba(0,0,0,0.02) 40px)'
             }} />
           </div>
 
           {/* Progress fill with smooth animation */}
           <motion.div
-            className={`absolute inset-y-0 left-0 bg-gradient-to-r ${item.gradientFrom} ${item.gradientTo} flex items-center justify-end rounded-lg sm:rounded-xl`}
+            className={`absolute inset-y-0 left-0 bg-gradient-to-r ${item.gradientFrom} ${item.gradientTo} flex items-center justify-end rounded-lg sm:rounded-xl shadow-sm`}
             initial={{ width: 0 }}
             animate={{ width: `${Math.max(percentage, 5)}%` }}
             transition={{ duration: 0.8, ease: "easeOut" }}
@@ -194,7 +194,7 @@ const ScoreBar = ({ item, index, maxScore, previousRank }) => {
             {/* Shimmer effect for leader */}
             {isLeader && (
               <div className="absolute inset-0 overflow-hidden rounded-lg sm:rounded-xl">
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent animate-shimmer" />
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent animate-shimmer" />
               </div>
             )}
 
@@ -202,18 +202,18 @@ const ScoreBar = ({ item, index, maxScore, previousRank }) => {
             {isLeader && item.score > 0 && (
               <div className="absolute right-2 sm:right-4 flex items-center gap-1 sm:gap-2">
                 <motion.div
-                  className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-white rounded-full"
+                  className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-white rounded-full shadow-sm"
                   animate={{ scale: [1, 1.3, 1] }}
                   transition={{ duration: 1, repeat: Infinity }}
                 />
-                <span className="text-white/80 text-[10px] sm:text-sm font-bold tracking-wider hidden xs:inline">LEADING</span>
+                <span className="text-white text-[10px] sm:text-sm font-bold tracking-wider hidden xs:inline drop-shadow-sm">LEADING</span>
               </div>
             )}
           </motion.div>
 
           {/* Glow effect */}
           <motion.div
-            className={`absolute inset-y-0 left-0 ${item.color} blur-xl opacity-30`}
+            className={`absolute inset-y-0 left-0 ${item.color} blur-xl opacity-20`}
             animate={{ width: `${percentage}%` }}
             transition={{ duration: 0.8 }}
           />
@@ -328,7 +328,7 @@ const SecurityDialog = ({ isOpen, onClose, onConfirm, title, description, isLoad
   );
 };
 
-// Final Results Podium Component - Responsive
+// Final Results Podium Component - Responsive - Light Theme
 const FinalResultsView = ({ scores, totalVotes }) => {
   const hasTriggeredConfetti = useRef(false);
 
@@ -373,7 +373,7 @@ const FinalResultsView = ({ scores, totalVotes }) => {
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 text-white py-6 sm:py-12 px-3 sm:px-6 pb-24"
+      className="min-h-screen bg-gradient-to-br from-sky-50 via-white to-sky-100 text-slate-800 py-6 sm:py-12 px-3 sm:px-6 pb-24"
     >
       {/* Header - Responsive */}
       <motion.div
@@ -383,13 +383,13 @@ const FinalResultsView = ({ scores, totalVotes }) => {
         className="text-center mb-6 sm:mb-12"
       >
         <div className="flex items-center justify-center gap-2 sm:gap-3 mb-2 sm:mb-4">
-          <PartyPopper className="w-6 h-6 sm:w-8 sm:h-8 text-yellow-400" />
-          <h1 className="text-xl sm:text-4xl font-black bg-gradient-to-r from-yellow-400 via-amber-400 to-orange-400 bg-clip-text text-transparent">
+          <PartyPopper className="w-6 h-6 sm:w-8 sm:h-8 text-yellow-500" />
+          <h1 className="text-xl sm:text-4xl font-black bg-gradient-to-r from-yellow-500 via-amber-500 to-orange-500 bg-clip-text text-transparent drop-shadow-sm">
             KẾT QUẢ CHUNG CUỘC
           </h1>
-          <PartyPopper className="w-6 h-6 sm:w-8 sm:h-8 text-yellow-400 transform scale-x-[-1]" />
+          <PartyPopper className="w-6 h-6 sm:w-8 sm:h-8 text-yellow-500 transform scale-x-[-1]" />
         </div>
-        <p className="text-xs sm:text-base text-slate-400">
+        <p className="text-xs sm:text-base text-slate-500 font-medium">
           YEP CLIP CONTEST 2025 - Tổng số phiếu: {totalVotes}
         </p>
       </motion.div>
@@ -403,23 +403,23 @@ const FinalResultsView = ({ scores, totalVotes }) => {
       >
         <div className="relative">
           {/* Glow effect */}
-          <div className="absolute -inset-2 sm:-inset-4 bg-gradient-to-r from-yellow-500/30 via-amber-500/20 to-yellow-500/30 rounded-2xl sm:rounded-3xl blur-2xl" />
+          <div className="absolute -inset-2 sm:-inset-4 bg-gradient-to-r from-yellow-200/50 via-amber-200/30 to-yellow-200/50 rounded-2xl sm:rounded-3xl blur-2xl" />
 
-          <div className="relative bg-gradient-to-br from-yellow-500/20 to-amber-500/10 border-2 border-yellow-500/50 rounded-2xl sm:rounded-3xl p-4 sm:p-8 text-center">
+          <div className="relative bg-gradient-to-br from-yellow-50 via-white to-amber-50 border-2 border-yellow-200 rounded-2xl sm:rounded-3xl p-4 sm:p-8 text-center shadow-xl shadow-yellow-500/10">
             <motion.div
               animate={{ rotate: [0, -5, 5, -5, 0] }}
               transition={{ duration: 2, repeat: Infinity, repeatDelay: 3 }}
             >
-              <Crown className="w-12 h-12 sm:w-20 sm:h-20 text-yellow-400 mx-auto mb-2 sm:mb-4" />
+              <Crown className="w-12 h-12 sm:w-20 sm:h-20 text-yellow-500 mx-auto mb-2 sm:mb-4 drop-shadow-md" />
             </motion.div>
             <div className="text-4xl sm:text-6xl mb-1 sm:mb-2">🏆</div>
-            <div className="text-xs sm:text-sm text-yellow-400/70 uppercase tracking-widest mb-1 sm:mb-2">Vô địch</div>
-            <h2 className="text-2xl sm:text-4xl font-black text-yellow-400 mb-1 sm:mb-2">{winner.name}</h2>
-            <p className="text-sm sm:text-lg text-slate-400 mb-2 sm:mb-4">{winner.team}</p>
-            <div className="inline-flex items-center gap-1.5 sm:gap-2 bg-yellow-500/20 px-4 sm:px-6 py-2 sm:py-3 rounded-full">
-              <Sparkles className="w-4 h-4 sm:w-5 sm:h-5 text-yellow-400" />
-              <span className="text-xl sm:text-3xl font-bold text-yellow-400">{winner.score}</span>
-              <span className="text-sm sm:text-base text-yellow-400/70">điểm</span>
+            <div className="text-xs sm:text-sm text-yellow-600 font-bold uppercase tracking-widest mb-1 sm:mb-2">Vô địch</div>
+            <h2 className="text-2xl sm:text-4xl font-black text-slate-800 mb-1 sm:mb-2">{winner.name}</h2>
+            <p className="text-sm sm:text-lg text-slate-500 mb-2 sm:mb-4">{winner.team}</p>
+            <div className="inline-flex items-center gap-1.5 sm:gap-2 bg-yellow-100 px-4 sm:px-6 py-2 sm:py-3 rounded-full border border-yellow-200">
+              <Sparkles className="w-4 h-4 sm:w-5 sm:h-5 text-yellow-600" />
+              <span className="text-xl sm:text-3xl font-bold text-yellow-600">{winner.score}</span>
+              <span className="text-sm sm:text-base text-yellow-600/70">điểm</span>
             </div>
           </div>
         </div>
@@ -435,15 +435,15 @@ const FinalResultsView = ({ scores, totalVotes }) => {
             transition={{ delay: 0.8 }}
             className="relative"
           >
-            <div className="absolute -inset-2 bg-slate-400/10 rounded-2xl blur-xl" />
-            <div className="relative bg-slate-800/50 border border-slate-400/30 rounded-2xl p-6 text-center">
-              <Medal size={48} className="text-slate-300 mx-auto mb-3" />
+            <div className="absolute -inset-2 bg-slate-200/50 rounded-2xl blur-xl" />
+            <div className="relative bg-white/80 border border-slate-200 rounded-2xl p-6 text-center shadow-lg">
+              <Medal size={48} className="text-slate-400 mx-auto mb-3" />
               <div className="text-4xl mb-2">🥈</div>
-              <div className="text-xs text-slate-400 uppercase tracking-widest mb-2">Á quân</div>
-              <h3 className="text-2xl font-bold text-white mb-1">{secondPlace.name}</h3>
+              <div className="text-xs text-slate-500 uppercase tracking-widest mb-2 font-bold">Á quân</div>
+              <h3 className="text-2xl font-bold text-slate-800 mb-1">{secondPlace.name}</h3>
               <p className="text-sm text-slate-500 mb-3">{secondPlace.team}</p>
-              <div className="inline-flex items-center gap-2 bg-slate-700/50 px-4 py-2 rounded-full">
-                <span className="text-2xl font-bold text-slate-300">{secondPlace.score}</span>
+              <div className="inline-flex items-center gap-2 bg-slate-100 px-4 py-2 rounded-full border border-slate-200">
+                <span className="text-2xl font-bold text-slate-600">{secondPlace.score}</span>
                 <span className="text-slate-500">điểm</span>
               </div>
             </div>
@@ -458,15 +458,15 @@ const FinalResultsView = ({ scores, totalVotes }) => {
             transition={{ delay: 1 }}
             className="relative"
           >
-            <div className="absolute -inset-2 bg-amber-600/10 rounded-2xl blur-xl" />
-            <div className="relative bg-slate-800/50 border border-amber-600/30 rounded-2xl p-6 text-center">
+            <div className="absolute -inset-2 bg-amber-200/50 rounded-2xl blur-xl" />
+            <div className="relative bg-white/80 border border-amber-200 rounded-2xl p-6 text-center shadow-lg">
               <Award size={48} className="text-amber-600 mx-auto mb-3" />
               <div className="text-4xl mb-2">🥉</div>
-              <div className="text-xs text-amber-600/70 uppercase tracking-widest mb-2">Hạng Ba</div>
-              <h3 className="text-2xl font-bold text-white mb-1">{thirdPlace.name}</h3>
+              <div className="text-xs text-amber-600 uppercase tracking-widest mb-2 font-bold">Hạng Ba</div>
+              <h3 className="text-2xl font-bold text-slate-800 mb-1">{thirdPlace.name}</h3>
               <p className="text-sm text-slate-500 mb-3">{thirdPlace.team}</p>
-              <div className="inline-flex items-center gap-2 bg-amber-600/20 px-4 py-2 rounded-full">
-                <span className="text-2xl font-bold text-amber-500">{thirdPlace.score}</span>
+              <div className="inline-flex items-center gap-2 bg-amber-50 px-4 py-2 rounded-full border border-amber-100">
+                <span className="text-2xl font-bold text-amber-600">{thirdPlace.score}</span>
                 <span className="text-amber-600/70">điểm</span>
               </div>
             </div>
@@ -482,23 +482,23 @@ const FinalResultsView = ({ scores, totalVotes }) => {
           transition={{ delay: 1.2 }}
           className="max-w-2xl mx-auto"
         >
-          <h3 className="text-center text-slate-500 text-sm uppercase tracking-widest mb-4">
+          <h3 className="text-center text-slate-500 text-sm uppercase tracking-widest mb-4 font-bold">
             Các đội tham gia
           </h3>
           <div className="space-y-3">
             {scores.slice(3).map((item, idx) => (
               <div
                 key={item.id}
-                className="bg-slate-800/30 border border-slate-700/50 rounded-xl p-4 flex items-center justify-between"
+                className="bg-white/60 border border-slate-200 rounded-xl p-4 flex items-center justify-between shadow-sm"
               >
                 <div className="flex items-center gap-3">
-                  <span className="text-slate-500 font-bold">#{idx + 4}</span>
+                  <span className="text-slate-400 font-bold">#{idx + 4}</span>
                   <div>
-                    <h4 className="font-medium text-white">{item.name}</h4>
+                    <h4 className="font-medium text-slate-700">{item.name}</h4>
                     <p className="text-xs text-slate-500">{item.team}</p>
                   </div>
                 </div>
-                <span className="text-lg font-bold text-slate-400">{item.score} pts</span>
+                <span className="text-lg font-bold text-slate-600">{item.score} pts</span>
               </div>
             ))}
           </div>
