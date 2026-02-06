@@ -22,9 +22,10 @@ import {
 
 // Award Icon Component
 const AwardIcon = ({ id, size = 24 }) => {
-  if (id === 'first') return <Trophy size={size} className="text-yellow-500" />;
-  if (id === 'second') return <Medal size={size} className="text-slate-400" />;
-  if (id === 'third') return <Award size={size} className="text-amber-600" />;
+  const strokeWidth = 1.5;
+  if (id === 'first') return <Trophy size={size} strokeWidth={strokeWidth} className="text-amber-400" />;
+  if (id === 'second') return <Medal size={size} strokeWidth={strokeWidth} className="text-blue-400" />;
+  if (id === 'third') return <Award size={size} strokeWidth={strokeWidth} className="text-orange-500" />;
   return <div className="w-1 h-1 bg-slate-300 rounded-full" />;
 };
 
@@ -176,7 +177,7 @@ const ConfirmationScreen = ({ selections, onBack, onSubmit, submitting }) => (
               <div
                 key={video.id}
                 className={`flex justify-between items-center p-4 rounded-xl border transition-all ${isAwarded
-                  ? 'bg-sky-50 border-sky-100 shadow-sm'
+                  ? 'bg-violet-50/50 border-violet-100 shadow-sm'
                   : 'bg-slate-50 border-transparent opacity-60'
                   }`}
               >
@@ -261,10 +262,10 @@ const VideoCard = ({ video, selectedAward, onSelectAward, validation }) => {
         className={`
           relative p-4 rounded-xl text-sm font-bold border transition-all duration-300 flex flex-col items-center justify-center gap-1 group
           ${isSelected
-            ? `${award.bgColor} ${award.borderColor} ${award.textColor} bg-opacity-100 shadow-md scale-[1.02] ring-2 ring-primary-500/20`
+            ? `${award.bgColor} ${award.borderColor} ${award.textColor} bg-opacity-100 shadow-lg scale-[1.05] ring-2 ring-violet-500/30`
             : isDisabled
               ? 'bg-slate-100 border-slate-200 text-slate-400 cursor-not-allowed opacity-60'
-              : `bg-white border-slate-100 text-slate-400 hover:bg-slate-50 hover:text-slate-600 hover:border-slate-200 hover:scale-[1.02] shadow-sm`
+              : `bg-white border-slate-100 text-slate-400 hover:bg-violet-50/50 hover:text-slate-600 hover:border-violet-200 hover:scale-[1.02] shadow-sm`
           }
         `}
       >
@@ -284,7 +285,7 @@ const VideoCard = ({ video, selectedAward, onSelectAward, validation }) => {
   };
 
   return (
-    <div className={`glass-card bg-white relative overflow-hidden transition-all duration-500 hover:shadow-2xl hover:shadow-sky-200/40 group border border-white/60 ${selectedAward !== 'none' ? 'ring-2 ring-primary-500/50 shadow-lg shadow-sky-200/50' : ''
+    <div className={`glass-card bg-white relative overflow-hidden transition-all duration-500 hover:shadow-2xl hover:shadow-violet-200/40 group border border-white/60 ${selectedAward !== 'none' ? 'ring-2 ring-violet-500/50 shadow-xl shadow-violet-200/50 bg-violet-50/5' : ''
       }`}>
       {/* Background Gradient Accent */}
       <div className={`absolute top-0 left-0 w-1.5 h-full bg-gradient-to-b ${video.gradientFrom} ${video.gradientTo}`} />
@@ -299,9 +300,9 @@ const VideoCard = ({ video, selectedAward, onSelectAward, validation }) => {
                 {video.team}
               </span>
               {selectedAward && selectedAward !== 'none' && (
-                <div className="animate-fade-in px-2 py-1 rounded-md bg-green-50 border border-green-100 flex items-center gap-1">
-                  <CheckCircle size={10} className="text-green-500" />
-                  <span className="text-[10px] font-bold text-green-600">Đã chọn</span>
+                <div className="animate-fade-in px-2 py-1 rounded-md bg-violet-50 border border-violet-100 flex items-center gap-1">
+                  <CheckCircle size={10} className="text-violet-500" />
+                  <span className="text-[10px] font-bold text-violet-600">Đã chọn</span>
                 </div>
               )}
             </div>
@@ -441,7 +442,7 @@ const VotingScreen = ({ user, existingVote, onAdminClick }) => {
   const progress = (awardedCount / VIDEOS.length) * 100;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-sky-50 via-white to-sky-100 text-slate-800 pb-32">
+    <div className="min-h-screen bg-gradient-to-br from-indigo-50/50 via-white to-violet-100/50 text-slate-800 pb-32">
       {/* Background decoration */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-sky-200/40 rounded-full blur-[120px]" />

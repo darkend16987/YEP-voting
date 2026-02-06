@@ -94,9 +94,10 @@ const ScoreBar = ({ item, index, maxScore, previousRank }) => {
   const isLeader = index === 0;
 
   const getRankIcon = () => {
-    if (index === 0) return <Crown className="w-6 h-6 sm:w-7 sm:h-7 text-yellow-500" />;
-    if (index === 1) return <Medal className="w-5 h-5 sm:w-6 sm:h-6 text-slate-400" />;
-    if (index === 2) return <Award className="w-5 h-5 sm:w-6 sm:h-6 text-amber-600" />;
+    const strokeWidth = 1.5;
+    if (index === 0) return <Crown className="w-6 h-6 sm:w-7 sm:h-7 text-amber-400" strokeWidth={strokeWidth} />;
+    if (index === 1) return <Medal className="w-5 h-5 sm:w-6 sm:h-6 text-blue-400" strokeWidth={strokeWidth} />;
+    if (index === 2) return <Award className="w-5 h-5 sm:w-6 sm:h-6 text-orange-500" strokeWidth={strokeWidth} />;
     return <span className="text-slate-400 font-bold text-base sm:text-lg">#{index + 1}</span>;
   };
 
@@ -373,7 +374,7 @@ const FinalResultsView = ({ scores, totalVotes }) => {
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      className="min-h-screen bg-gradient-to-br from-sky-50 via-white to-sky-100 text-slate-800 py-6 sm:py-12 px-3 sm:px-6 pb-24"
+      className="min-h-screen bg-gradient-to-br from-indigo-50/50 via-white to-violet-100/50 text-slate-800 py-6 sm:py-12 px-3 sm:px-6 pb-24"
     >
       {/* Header - Responsive */}
       <motion.div
@@ -410,7 +411,7 @@ const FinalResultsView = ({ scores, totalVotes }) => {
               animate={{ rotate: [0, -5, 5, -5, 0] }}
               transition={{ duration: 2, repeat: Infinity, repeatDelay: 3 }}
             >
-              <Crown className="w-12 h-12 sm:w-20 sm:h-20 text-yellow-500 mx-auto mb-2 sm:mb-4 drop-shadow-md" />
+              <Crown className="w-12 h-12 sm:w-20 sm:h-20 text-amber-400 mx-auto mb-2 sm:mb-4 drop-shadow-md" strokeWidth={1.5} />
             </motion.div>
             <div className="text-4xl sm:text-6xl mb-1 sm:mb-2">🏆</div>
             <div className="text-xs sm:text-sm text-yellow-600 font-bold uppercase tracking-widest mb-1 sm:mb-2">Vô địch</div>
@@ -437,7 +438,7 @@ const FinalResultsView = ({ scores, totalVotes }) => {
           >
             <div className="absolute -inset-2 bg-slate-200/50 rounded-2xl blur-xl" />
             <div className="relative bg-white/80 border border-slate-200 rounded-2xl p-6 text-center shadow-lg">
-              <Medal size={48} className="text-slate-400 mx-auto mb-3" />
+              <Medal size={48} strokeWidth={1.5} className="text-blue-400 mx-auto mb-3" />
               <div className="text-4xl mb-2">🥈</div>
               <div className="text-xs text-slate-500 uppercase tracking-widest mb-2 font-bold">Á quân</div>
               <h3 className="text-2xl font-bold text-slate-800 mb-1">{secondPlace.name}</h3>
@@ -460,7 +461,7 @@ const FinalResultsView = ({ scores, totalVotes }) => {
           >
             <div className="absolute -inset-2 bg-amber-200/50 rounded-2xl blur-xl" />
             <div className="relative bg-white/80 border border-amber-200 rounded-2xl p-6 text-center shadow-lg">
-              <Award size={48} className="text-amber-600 mx-auto mb-3" />
+              <Award size={48} strokeWidth={1.5} className="text-orange-500 mx-auto mb-3" />
               <div className="text-4xl mb-2">🥉</div>
               <div className="text-xs text-amber-600 uppercase tracking-widest mb-2 font-bold">Hạng Ba</div>
               <h3 className="text-2xl font-bold text-slate-800 mb-1">{thirdPlace.name}</h3>
@@ -831,7 +832,7 @@ const DashboardScreen = ({ onExit }) => {
 
           <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-4 md:gap-8 w-full md:w-auto">
             <div className="flex items-center gap-2 sm:gap-3 bg-white/5 px-2 sm:px-4 py-1.5 sm:py-2 rounded-lg sm:rounded-xl border border-white/5">
-              <Trophy className="w-4 h-4 sm:w-5 sm:h-5 text-yellow-400" />
+              <Trophy className="w-4 h-4 sm:w-5 sm:h-5 text-amber-400" strokeWidth={1.5} />
               <div className="flex flex-col">
                 <span className="text-[8px] sm:text-[10px] text-slate-400 font-bold uppercase tracking-wider">Nhất</span>
                 <span className="text-yellow-400 font-bold font-display text-sm sm:text-lg">+5</span>
@@ -839,7 +840,7 @@ const DashboardScreen = ({ onExit }) => {
             </div>
 
             <div className="flex items-center gap-2 sm:gap-3 bg-white/5 px-2 sm:px-4 py-1.5 sm:py-2 rounded-lg sm:rounded-xl border border-white/5">
-              <Medal className="w-4 h-4 sm:w-5 sm:h-5 text-slate-300" />
+              <Medal className="w-4 h-4 sm:w-5 sm:h-5 text-blue-400" strokeWidth={1.5} />
               <div className="flex flex-col">
                 <span className="text-[8px] sm:text-[10px] text-slate-400 font-bold uppercase tracking-wider">Nhì</span>
                 <span className="text-slate-300 font-bold font-display text-sm sm:text-lg">+3</span>
@@ -847,7 +848,7 @@ const DashboardScreen = ({ onExit }) => {
             </div>
 
             <div className="flex items-center gap-2 sm:gap-3 bg-white/5 px-2 sm:px-4 py-1.5 sm:py-2 rounded-lg sm:rounded-xl border border-white/5">
-              <Medal className="w-4 h-4 sm:w-5 sm:h-5 text-amber-600" />
+              <Award className="w-4 h-4 sm:w-5 sm:h-5 text-orange-500" strokeWidth={1.5} />
               <div className="flex flex-col">
                 <span className="text-[8px] sm:text-[10px] text-slate-400 font-bold uppercase tracking-wider">Ba</span>
                 <span className="text-amber-600 font-bold font-display text-sm sm:text-lg">+2</span>
