@@ -308,10 +308,6 @@ const VideoCard = ({ video, selectedAward, onSelectAward, validation }) => {
             </div>
             <h3 className="text-2xl font-display font-bold text-slate-800 leading-tight group-hover:text-primary-600 transition-colors">{video.name}</h3>
           </div>
-
-          <div className={`w-12 h-12 rounded-2xl bg-slate-50 border border-slate-100 flex items-center justify-center group-hover:bg-white group-hover:shadow-md transition-all ${video.textColor}`}>
-            <Play size={24} fill="currentColor" className="opacity-90" />
-          </div>
         </div>
 
         {/* Award buttons */}
@@ -526,8 +522,8 @@ const VotingScreen = ({ user, existingVote, onAdminClick }) => {
         ))}
 
         {/* Footer info */}
-        <div className="pt-8 pb-4 text-center opacity-40 hover:opacity-100 transition-opacity duration-300">
-          <p className="text-[10px] text-slate-400 uppercase tracking-[0.2em] mb-2">Powered by</p>
+        <div className="pt-8 pb-4 text-center opacity-60 hover:opacity-100 transition-opacity duration-300">
+          <p className="text-[10px] text-slate-600 uppercase tracking-[0.2em] mb-2">Powered by</p>
           <img src={logoPlaceholder} alt="Company Logo" className="h-6 w-auto mx-auto grayscale hover:grayscale-0 transition-all" />
         </div>
       </div>
@@ -535,9 +531,9 @@ const VotingScreen = ({ user, existingVote, onAdminClick }) => {
       {/* Bottom action bar */}
       <div className="fixed bottom-0 left-0 right-0 z-40">
         {/* Gradient fade */}
-        <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-white to-transparent pointer-events-none" />
+        <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-secondary-50 to-transparent pointer-events-none" />
 
-        <div className="relative bg-white/80 backdrop-blur-xl border-t border-slate-200 safe-area-bottom shadow-2xl">
+        <div className="relative bg-white/90 backdrop-blur-xl border-t border-slate-200 safe-area-bottom shadow-2xl">
           <div className="max-w-2xl mx-auto px-4 py-4 flex items-center gap-4">
             <div className="flex-1">
               {validation.errors.length > 0 ? (

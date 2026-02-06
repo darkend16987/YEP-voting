@@ -819,39 +819,39 @@ const DashboardScreen = ({ onExit }) => {
 
       {/* Legend - Responsive */}
       <div className="max-w-7xl mx-auto px-3 sm:px-6 pb-24 sm:pb-12">
-        <div className="bg-slate-900/40 backdrop-blur-md rounded-xl sm:rounded-2xl border border-white/5 p-3 sm:p-6 flex flex-col md:flex-row items-center justify-between gap-4 sm:gap-6">
+        <div className="bg-white/80 backdrop-blur-md rounded-xl sm:rounded-2xl border border-slate-200 p-3 sm:p-6 flex flex-col md:flex-row items-center justify-between gap-4 sm:gap-6 shadow-lg">
           <div className="flex items-center gap-2 sm:gap-3 w-full md:w-auto">
-            <div className="p-1.5 sm:p-2 bg-yellow-500/10 rounded-lg text-yellow-500">
+            <div className="p-1.5 sm:p-2 bg-amber-100 rounded-lg text-amber-600">
               <Zap className="w-4 h-4 sm:w-5 sm:h-5" />
             </div>
             <div>
-              <h3 className="text-xs sm:text-sm font-bold text-white">Cơ chế tính điểm</h3>
-              <p className="text-[10px] sm:text-xs text-slate-400">Cập nhật theo thời gian thực</p>
+              <h3 className="text-xs sm:text-sm font-bold text-slate-800">Cơ chế tính điểm</h3>
+              <p className="text-[10px] sm:text-xs text-slate-500">Cập nhật theo thời gian thực</p>
             </div>
           </div>
 
           <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-4 md:gap-8 w-full md:w-auto">
-            <div className="flex items-center gap-2 sm:gap-3 bg-white/5 px-2 sm:px-4 py-1.5 sm:py-2 rounded-lg sm:rounded-xl border border-white/5">
+            <div className="flex items-center gap-2 sm:gap-3 bg-amber-50 px-2 sm:px-4 py-1.5 sm:py-2 rounded-lg sm:rounded-xl border border-amber-100">
               <Trophy className="w-4 h-4 sm:w-5 sm:h-5 text-amber-400" strokeWidth={1.5} />
               <div className="flex flex-col">
-                <span className="text-[8px] sm:text-[10px] text-slate-400 font-bold uppercase tracking-wider">Nhất</span>
-                <span className="text-yellow-400 font-bold font-display text-sm sm:text-lg">+5</span>
+                <span className="text-[8px] sm:text-[10px] text-slate-500 font-bold uppercase tracking-wider">Nhất</span>
+                <span className="text-amber-600 font-bold font-display text-sm sm:text-lg">+5</span>
               </div>
             </div>
 
-            <div className="flex items-center gap-2 sm:gap-3 bg-white/5 px-2 sm:px-4 py-1.5 sm:py-2 rounded-lg sm:rounded-xl border border-white/5">
+            <div className="flex items-center gap-2 sm:gap-3 bg-blue-50 px-2 sm:px-4 py-1.5 sm:py-2 rounded-lg sm:rounded-xl border border-blue-100">
               <Medal className="w-4 h-4 sm:w-5 sm:h-5 text-blue-400" strokeWidth={1.5} />
               <div className="flex flex-col">
-                <span className="text-[8px] sm:text-[10px] text-slate-400 font-bold uppercase tracking-wider">Nhì</span>
-                <span className="text-slate-300 font-bold font-display text-sm sm:text-lg">+3</span>
+                <span className="text-[8px] sm:text-[10px] text-slate-500 font-bold uppercase tracking-wider">Nhì</span>
+                <span className="text-blue-600 font-bold font-display text-sm sm:text-lg">+3</span>
               </div>
             </div>
 
-            <div className="flex items-center gap-2 sm:gap-3 bg-white/5 px-2 sm:px-4 py-1.5 sm:py-2 rounded-lg sm:rounded-xl border border-white/5">
+            <div className="flex items-center gap-2 sm:gap-3 bg-orange-50 px-2 sm:px-4 py-1.5 sm:py-2 rounded-lg sm:rounded-xl border border-orange-100">
               <Award className="w-4 h-4 sm:w-5 sm:h-5 text-orange-500" strokeWidth={1.5} />
               <div className="flex flex-col">
-                <span className="text-[8px] sm:text-[10px] text-slate-400 font-bold uppercase tracking-wider">Ba</span>
-                <span className="text-amber-600 font-bold font-display text-sm sm:text-lg">+2</span>
+                <span className="text-[8px] sm:text-[10px] text-slate-500 font-bold uppercase tracking-wider">Ba</span>
+                <span className="text-orange-600 font-bold font-display text-sm sm:text-lg">+2</span>
               </div>
             </div>
           </div>
