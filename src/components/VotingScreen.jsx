@@ -444,7 +444,7 @@ const VotingScreen = ({ user, existingVote, onAdminClick }) => {
       </div>
 
       {/* Header */}
-      <div className="sticky top-0 z-30 bg-white/70 backdrop-blur-xl border-b border-secondary-100 shadow-sm">
+      <div className="sticky top-0 z-30 bg-white backdrop-blur-xl border-b border-slate-200 shadow-sm">
         <div className="max-w-2xl mx-auto px-4 py-3 flex justify-between items-center">
           <div className="flex items-center gap-3">
             <img src={logoPlaceholder} alt="Logo" className="h-8 object-contain" />
@@ -529,9 +529,9 @@ const VotingScreen = ({ user, existingVote, onAdminClick }) => {
       {/* Bottom action bar */}
       <div className="fixed bottom-0 left-0 right-0 z-40">
         {/* Gradient fade */}
-        <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-secondary-50 to-transparent pointer-events-none" />
+        <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-white to-transparent pointer-events-none" />
 
-        <div className="relative bg-white/70 backdrop-blur-xl border-t border-secondary-200 safe-area-bottom shadow-2xl">
+        <div className="relative bg-white backdrop-blur-xl border-t border-slate-200 safe-area-bottom shadow-2xl">
           <div className="max-w-2xl mx-auto px-4 py-4 flex items-center gap-4">
             <div className="flex-1">
               {validation.errors.length > 0 ? (
