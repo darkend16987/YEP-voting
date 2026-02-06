@@ -33,7 +33,7 @@ const AwardIcon = ({ id, size = 24 }) => {
 const VotingLockedCard = ({ user, onAdminClick }) => (
   <div className="min-h-screen text-slate-800 p-6 flex flex-col items-center justify-center">
     <div className="w-full max-w-md">
-      <div className="bg-white/90 border border-secondary-200 p-8 rounded-3xl text-center backdrop-blur-xl shadow-xl shadow-secondary-200/20">
+      <div className="bg-white/70 border border-secondary-200 p-8 rounded-3xl text-center backdrop-blur-xl shadow-xl shadow-secondary-200/20">
         <div className="w-20 h-20 bg-gradient-to-br from-amber-400 to-orange-500 rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg shadow-amber-500/20">
           <Lock size={40} className="text-white" />
         </div>
@@ -292,22 +292,20 @@ const VideoCard = ({ video, selectedAward, onSelectAward, validation }) => {
       <div className={`absolute inset-0 bg-gradient-to-r ${video.gradientFrom} ${video.gradientTo} opacity-0 group-hover:opacity-[0.03] transition-opacity duration-500`} />
 
       <div className="p-6 pl-8">
-        {/* Video info */}
-        <div className="flex items-start justify-between mb-6">
-          <div>
-            <div className="flex items-center gap-2 mb-1">
-              <span className={`text-[10px] font-bold uppercase tracking-widest py-1 px-2 rounded-md bg-white border border-slate-100 shadow-sm ${video.textColor}`}>
-                {video.team}
-              </span>
-              {selectedAward && selectedAward !== 'none' && (
-                <div className="animate-fade-in px-2 py-1 rounded-md bg-violet-50 border border-violet-100 flex items-center gap-1">
-                  <CheckCircle size={10} className="text-violet-500" />
-                  <span className="text-[10px] font-bold text-violet-600">Đã chọn</span>
-                </div>
-              )}
-            </div>
-            <h3 className="text-2xl font-display font-bold text-slate-800 leading-tight group-hover:text-primary-600 transition-colors">{video.name}</h3>
+        {/* Video info - Team and Name on same row */}
+        <div className="flex items-center justify-between mb-5">
+          <div className="flex items-center gap-3">
+            <span className={`text-xs font-semibold uppercase tracking-wide py-1.5 px-3 rounded-full bg-gradient-to-r ${video.gradientFrom} ${video.gradientTo} text-white shadow-sm`}>
+              {video.team}
+            </span>
+            <h3 className="text-xl font-display font-bold text-slate-700 group-hover:text-primary-600 transition-colors">{video.name}</h3>
           </div>
+          {selectedAward && selectedAward !== 'none' && (
+            <div className="animate-fade-in px-2.5 py-1.5 rounded-full bg-violet-100 border border-violet-200 flex items-center gap-1.5 shadow-sm">
+              <CheckCircle size={12} className="text-violet-500" />
+              <span className="text-xs font-bold text-violet-600">Đã chọn</span>
+            </div>
+          )}
         </div>
 
         {/* Award buttons */}
@@ -446,7 +444,7 @@ const VotingScreen = ({ user, existingVote, onAdminClick }) => {
       </div>
 
       {/* Header */}
-      <div className="sticky top-0 z-30 bg-white/90 backdrop-blur-xl border-b border-secondary-100 shadow-sm">
+      <div className="sticky top-0 z-30 bg-white/70 backdrop-blur-xl border-b border-secondary-100 shadow-sm">
         <div className="max-w-2xl mx-auto px-4 py-3 flex justify-between items-center">
           <div className="flex items-center gap-3">
             <img src={logoPlaceholder} alt="Logo" className="h-8 object-contain" />
@@ -533,7 +531,7 @@ const VotingScreen = ({ user, existingVote, onAdminClick }) => {
         {/* Gradient fade */}
         <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-secondary-50 to-transparent pointer-events-none" />
 
-        <div className="relative bg-white/95 backdrop-blur-xl border-t border-secondary-200 safe-area-bottom shadow-2xl">
+        <div className="relative bg-white/70 backdrop-blur-xl border-t border-secondary-200 safe-area-bottom shadow-2xl">
           <div className="max-w-2xl mx-auto px-4 py-4 flex items-center gap-4">
             <div className="flex-1">
               {validation.errors.length > 0 ? (
